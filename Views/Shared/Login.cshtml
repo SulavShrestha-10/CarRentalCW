@@ -2,7 +2,7 @@
 
 <h2>Login</h2>
 
-<form asp-action="Login" asp-controller="Customer" method="post">
+<form asp-action="Login" asp-controller="UserUtils" method="post">
     <div asp-validation-summary="All"></div>
 
     <div>
@@ -21,8 +21,7 @@
 </form>
 
 <p>
-    <a asp-controller="Account" asp-action="Register">Register</a> |
-    <a asp-controller="Account" asp-action="ForgotPassword">Forgot your password?</a>
+    <a asp-controller="Customer" asp-action="Register">Register</a>
 </p>
 
 @if (ViewData["ReturnUrl"] != null)
