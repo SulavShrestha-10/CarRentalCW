@@ -50,16 +50,28 @@ namespace CarRentalApp.Controllers
         // POST: Cars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarID,Manufacturer,Model,RentalRate,VehicleNo,IsAvailable")] Car car)
+        public async Task<IActionResult> Create(CarViewModel carViewModel)
         {
             if (ModelState.IsValid)
             {
+                var car = new Car
+                {
+                    Manufacturer = carViewModel.Manufacturer,
+                    Model = carViewModel.Model,
+                    RentalRate = carViewModel.RentalRate,
+                    VehicleNo = carViewModel.VehicleNo,
+                    IsAvailable = true,
+                    CarImageURL = carViewModel.CarImageURL
+                };
+
                 _context.Add(car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(car);
+
+            return View(carViewModel);
         }
+
 
         // GET: Cars/Edit/5
         public async Task<IActionResult> Edit(int? id)
