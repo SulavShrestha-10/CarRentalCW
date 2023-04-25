@@ -1,0 +1,47 @@
+﻿@model List<CarRentalApp.Models.Offer>
+
+@{
+    ViewData["Title"] = "Offers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Offers</h1>
+
+<p>
+    <a asp-action="Create">Create New Offer</a>
+</p>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Error)
+    </div>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Car</th>
+            <th>Discount Rate</th>
+            <th>Description</th>
+            <th>End Date</th>
+            <th>Is Valid</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@($"{item.Car.Manufacturer} {item.Car.Model} {item.Car.Color}")</td>
+                <td>@item.DiscountRate</td>
+                <td>@item.OfferDescription</td>
+                <td>@item.OfferEndDate.ToString("MM/dd/yyyy")</td>
+                <td>@(item.IsValid == true ? "Yes" : (item.IsValid == false ? "No" : "-"))</td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.OfferID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
