@@ -1,25 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Car Page";
+﻿
+@{
+    ViewData["Title"] = "Cars";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model List<Car>
+<h1>Cars</h1>
 
-@model IEnumerable<CarRentalApp.Models.Car>
-
-@*@foreach (var car in Model)
-{*@
-
-<div class="card" style="width: 18rem;">
-    <img src="images/download.jfif" class="card-img-top" alt="Car Image">
-    <div class="card-body">
-        <h5 class="card-title">Car ID: 12345</h5>
-        <p class="card-text">Manufacturer: Ford</p>
-        <p class="card-text">Model: Mustang</p>
-        <p class="card-text">Color: Red</p>
-        <p class="card-text">Rental Rate: $50/day</p>
-        <p class="card-text">Vehicle No: XYZ 1234</p>
-        <p class="card-text">Availability: Available</p>
-        <p class="card-text">Offers: 10% off for weekly rentals</p>
-        <a href="#" class="btn btn-primary">Book Now</a>
-    </div>
-</div>
-
-@*}*@
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Rental Rate</th>
+            <th>Is Available</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalRate)
+                </td>
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <span class="text-success">Available</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Not Available</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CarID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CarID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CarID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

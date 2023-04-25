@@ -37,4 +37,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 AppDataSeed.SeedAdminAndStaffAsync(app).Wait();
+AppDataSeed.SeedCarData(app);
 app.Run();
