@@ -13,6 +13,7 @@ namespace CarRentalApp.Models
         public decimal RentalRate { get; set; }
         public string? VehicleNo { get; set; }
         public bool IsAvailable { get; set; }
+        public string? CarImageURL { get; set; }
 
         [JsonIgnore]
         public ICollection<Offer>? Offers { get; set; }
