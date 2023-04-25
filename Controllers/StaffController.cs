@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using CarRentalApp.Models;
+using NuGet.Packaging;
 
 namespace CarRentalApp.Controllers
 {
-    [Authorize(Roles = UserRole.Staff)]
+
+    [Authorize(Roles = UserRole.Staff + "," + UserRole.Admin)]
     public class StaffController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -22,11 +24,12 @@ namespace CarRentalApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var adminAndStaff = _userManager.Users.Where(u =>
-                _userManager.IsInRoleAsync(u, UserRole.Admin).Result ||
-                _userManager.IsInRoleAsync(u, UserRole.Staff).Result);
-            return View(adminAndStaff);
+            var adminAndStaff = await _userManager.GetUsersInRoleAsync(UserRole.Admin);
+            adminAndStaff.AddRange(await _userManager.GetUsersInRoleAsync(UserRole.Staff));
+            ViewBag.UserManager = _userManager;
+            return View(adminAndStaff.ToList());
         }
+
 
         [AllowAnonymous]
         public IActionResult Register()
