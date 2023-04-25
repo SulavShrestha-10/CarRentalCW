@@ -17,20 +17,20 @@ namespace CarRentalApp.Data
             _fromPassword = optionsAccessor.Value.FromPassword;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress(_fromEmail);
-            message.Subject = subject;
-            message.To.Add(new MailAddress(email));
-            message.Body = htmlMessage;
-            message.IsBodyHtml = true;
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress(_fromEmail);
+            mailMessage.Subject = subject;
+            mailMessage.To.Add(new MailAddress(email));
+            mailMessage.Body = message;
+            mailMessage.IsBodyHtml = true;
 
             using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
             {
                 smtpClient.Credentials = new NetworkCredential(_fromEmail, _fromPassword);
                 smtpClient.EnableSsl = true;
-                await smtpClient.SendMailAsync(message);
+                await smtpClient.SendMailAsync(mailMessage);
             }
         }
     }
