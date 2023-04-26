@@ -1,53 +1,32 @@
-﻿
-@{
-    ViewData["Title"] = "Cars";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["Title"] = "Car Page";
 }
-@model List<Car>
-<h1>Cars</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Rental Rate</th>
-            <th>Is Available</th>
-            <th>Actions</th>  
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manufacturer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RentalRate)
-                </td>
-                <td>
-                    @if (item.IsAvailable)
-                    {
-                        <span class="text-success">Available</span>
-                    }
-                    else
-                    {
-                        <span class="text-danger">Not Available</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CarID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CarID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CarID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@model IEnumerable<CarRentalApp.Models.Car>
+
+<div class="d-flex my-2 justify-content-end">
+    <a asp-action="Create" class="btn btn-primary float-end">Add New Car</a>
+</div>
+
+
+<div class="row my-3 row-cols-4 g-4">
+    @foreach (var car in Model)
+    {
+        <div class="col">
+            <div class="card h-100" style="width: 18rem;">
+                <img src="@car.CarImageURL" class="card-img-top h-100" alt="Car Image">
+                <div class="card-body">
+                    <h5 class="card-title"><b>Car ID: </b>@car.CarID</h5>
+                    <p class="card-text"><b>Manufacturer: </b>@car.Manufacturer</p>
+                    <p class="card-text"><b>Model: </b>@car.Model</p>
+                    <p class="card-text"><b>Color: </b>@car.Color</p>
+                    <p class="card-text"><b>Rental Price: </b>@car.RentalRate</p>
+                    <p class="card-text"><b>VehicleNo: </b>@car.VehicleNo</p>
+                    <p class="card-text"><b>Availability: </b>@car.IsAvailable</p>
+                    <p class="card-text"><b>Offers: </b>@car.Offers</p>
+                    <a href="#" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
