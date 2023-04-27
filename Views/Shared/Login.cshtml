@@ -6,25 +6,24 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
                 <div class="card-body p-5 text-center">
-
-                    <h3 class="mb-5">Sign in</h3>
                     <form asp-action="Login" asp-controller="UserUtils" method="post">
-                        <div asp-validation-summary="All" class="text-danger">
+                    <h3 class="mb-5">Sign in</h3>
+                        <div asp-validation-summary="All" class="text-danger"></div>        
                             <div class="form-outline mb-4">
-                                <span asp-validation-for="Email" class="text-danger"></span>
                                 <input type="email" class="form-control form-control-lg" />
                                 <label class="form-label">Email</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                                
                             </div>
 
                             <div class="form-outline mb-4">
-                                <span asp-validation-for="Password" class="text-danger"></span>
                                 <input type="password" class="form-control form-control-lg" />
                                 <label class="form-label">Password</label>
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
                             <button class="btn login-btn btn-block" style="display: inline-block; margin-right: 20px; margin-left: 5px;" type="submit">Login</button>
-                        </div>
+                        
                         </form>
 
                         <hr class="my-4">
