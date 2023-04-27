@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRentalApp.Migrations
 {
     /// <inheritdoc />
-    public partial class NewDB : Migration
+    public partial class AllTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,6 +59,24 @@ namespace CarRentalApp.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    CarID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RentalRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VehicleNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    CarImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.CarID);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -166,6 +184,142 @@ namespace CarRentalApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Offers",
+                columns: table => new
+                {
+                    OfferID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    DiscountRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OfferDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OfferEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsValid = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Offers", x => x.OfferID);
+                    table.ForeignKey(
+                        name: "FK_Offers_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RentalRequests",
+                columns: table => new
+                {
+                    ReqID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    AuthorizedBy = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentalRequests", x => x.ReqID);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_AspNetUsers_AuthorizedBy",
+                        column: x => x.AuthorizedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Damages",
+                columns: table => new
+                {
+                    DamageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    RentalID = table.Column<int>(type: "int", nullable: false),
+                    DamageDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DamageStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DamageRequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaidDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Damages", x => x.DamageID);
+                    table.ForeignKey(
+                        name: "FK_Damages_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Damages_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Damages_RentalRequests_RentalID",
+                        column: x => x.RentalID,
+                        principalTable: "RentalRequests",
+                        principalColumn: "ReqID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RentalHistories",
+                columns: table => new
+                {
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    RentalID = table.Column<int>(type: "int", nullable: false),
+                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AuthorizedByID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentalHistories", x => new { x.UserID, x.CarID });
+                    table.ForeignKey(
+                        name: "FK_RentalHistories_AspNetUsers_AuthorizedByID",
+                        column: x => x.AuthorizedByID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentalHistories_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentalHistories_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RentalHistories_RentalRequests_RentalID",
+                        column: x => x.RentalID,
+                        principalTable: "RentalRequests",
+                        principalColumn: "ReqID",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
@@ -216,7 +370,57 @@ namespace CarRentalApp.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Damages_CarID",
+                table: "Damages",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Damages_RentalID",
+                table: "Damages",
+                column: "RentalID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Damages_UserID",
+                table: "Damages",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Offers_CarID",
+                table: "Offers",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalHistories_AuthorizedByID",
+                table: "RentalHistories",
+                column: "AuthorizedByID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalHistories_CarID",
+                table: "RentalHistories",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalHistories_RentalID",
+                table: "RentalHistories",
+                column: "RentalID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalRequests_AuthorizedBy",
+                table: "RentalRequests",
+                column: "AuthorizedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalRequests_CarID",
+                table: "RentalRequests",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalRequests_UserID",
+                table: "RentalRequests",
+                column: "UserID");
         }
+
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
