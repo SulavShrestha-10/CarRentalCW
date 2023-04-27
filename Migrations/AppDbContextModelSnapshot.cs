@@ -234,6 +234,12 @@ namespace CarRentalApp.Migrations
                     b.Property<int>("RentalID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ReturnedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalCost")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("UserID", "CarID");
 
                     b.HasIndex("AuthorizedByID");
@@ -256,10 +262,6 @@ namespace CarRentalApp.Migrations
                     b.Property<string>("AuthorizedBy")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AuthorizedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("CarID")
                         .IsRequired()
                         .HasColumnType("int");
@@ -267,23 +269,20 @@ namespace CarRentalApp.Migrations
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ReturnDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReqID");
 
                     b.HasIndex("AuthorizedBy");
 
-                    b.HasIndex("AuthorizedByUserId");
-
                     b.HasIndex("CarID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("RentalRequests");
                 });
@@ -516,21 +515,21 @@ namespace CarRentalApp.Migrations
 
             modelBuilder.Entity("CarRentalApp.Models.RentalRequest", b =>
                 {
-                    b.HasOne("CarRentalApp.Models.Identity.AppUser", "User")
+                    b.HasOne("CarRentalApp.Models.Identity.AppUser", "AuthorizedByUser")
                         .WithMany()
                         .HasForeignKey("AuthorizedBy")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CarRentalApp.Models.Identity.AppUser", "AuthorizedByUser")
-                        .WithMany("RentalRequests")
-                        .HasForeignKey("AuthorizedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("CarRentalApp.Models.Car", "Car")
                         .WithMany("RentalRequests")
                         .HasForeignKey("CarID")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRentalApp.Models.Identity.AppUser", "User")
+                        .WithMany("RentalRequests")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AuthorizedByUser");

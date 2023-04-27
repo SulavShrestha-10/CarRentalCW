@@ -38,7 +38,7 @@ namespace CarRentalApp.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RentalRequest>()
-                .HasOne(r => r.User)
+                .HasOne(r => r.AuthorizedByUser)
                 .WithMany()
                 .HasForeignKey(r => r.AuthorizedBy)
                 .OnDelete(DeleteBehavior.Restrict);

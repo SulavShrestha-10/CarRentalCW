@@ -9,7 +9,9 @@ namespace CarRentalApp.Models
         [Key] public int RentalID { get; set; }
         [ForeignKey("Id")] public string UserID { get; set; }
         [ForeignKey("CarID")] public int CarID { get; set; }
+        public decimal TotalCost { get; set; }
         public DateTime RentalDate { get; set; }
+        public DateTime? ReturnedDate { get; set; }
         [ForeignKey("Id")] public string? AuthorizedByID { get; set; }
         public virtual AppUser User { get; set; }
         public virtual Car Car { get; set; }
