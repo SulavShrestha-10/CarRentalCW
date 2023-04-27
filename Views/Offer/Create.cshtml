@@ -5,36 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<hr />
+<style>
+    label {
+        font-weight: bold
+    }
+</style>
+<h1 class="my-3 text-center text-white" style="background-color: #ff6b6b; padding: 1rem;">Create New Offer</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-md-3">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CarID" class="control-label"></label>
-                <select asp-for="CarID" class="form-control" asp-items="ViewBag.CarID"></select>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+            <div class="form-group mb-4">
+                <label asp-for="CarID" class="control-label mb-2">Car</label>
+                <select asp-for="CarID" class="form-select p-2">
+                    <option value="">Select a car</option>
+                    @foreach (var car in ViewBag.CarID)
+                    {
+                        <option value="@car.Value">@car.Text</option>
+                    }
+                </select>
                 <span asp-validation-for="CarID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DiscountRate" class="control-label"></label>
-                <input asp-for="DiscountRate" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="DiscountRate" class="control-label mb-2">Discount Rate</label>
+                <div class="input-group">
+                    <input asp-for="DiscountRate" class="form-control p-2" />
+                    <span class="input-group-text p-2">%</span>
+                </div>
                 <span asp-validation-for="DiscountRate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="OfferDescription" class="control-label"></label>
-                <textarea asp-for="OfferDescription" class="form-control"></textarea>
+            <div class="form-group mb-4">
+                <label asp-for="OfferDescription" class="control-label mb-2">Description</label>
+                <textarea asp-for="OfferDescription" class="form-control p-2"></textarea>
                 <span asp-validation-for="OfferDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="OfferEndDate" class="control-label"></label>
-                <input asp-for="OfferEndDate" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+            <div class="form-group mb-4">
+                <label asp-for="OfferEndDate" class="control-label mb-2">End Date</label>
+                <input asp-for="OfferEndDate" class="form-control p-2" asp-format="{0:yyyy-MM-dd}" />
                 <span asp-validation-for="OfferEndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary px-5" />
             </div>
         </form>
     </div>
