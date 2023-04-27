@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using CarRentalApp.Models.Identity;
+@using Microsoft.AspNetCore.Identity
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,6 +39,20 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="@Url.Action("Index", "Offer")">Offers</a>
+                        </li>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <span class="nav-link text-white">
+                                    @{
+                                        var userName = User.Identity.Name;
+                                        var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
+                                        var user = await userManager.FindByNameAsync(userName);
+                                        var firstName = user.Id;
+                                    }
+                                    @firstName
+                                </span>
+                            }
                         </li>
                     </ul>
                 </div>

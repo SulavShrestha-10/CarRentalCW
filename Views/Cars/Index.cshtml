@@ -22,7 +22,7 @@
                     <p class="card-text"><b>Rental Price: </b>@car.RentalRate</p>
                     <p class="card-text"><b>VehicleNo: </b>@car.VehicleNo</p>
                     <p class="card-text"><b>Availability: </b>@car.IsAvailable</p>
-                    <a href="#" class="btn btn-primary">Book Now</a>
+                    <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn btn-primary">Book Now</a>
                 </div>
             </div>
         </div>
