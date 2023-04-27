@@ -9,73 +9,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CarRentalApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+          rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CarRentalApp.styles.css" asp-append-version="true" />
+    <!-- Vendor CSS Files -->
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/css/LandingPage.css">
+
+    @RenderSection("AddCustomStyles", false)
 </head>
 <body>
+    <!-- ======= Top Bar ======= -->
     <header>
-        <nav class="navbar bg-black navbar-expand-lg navbar-light fixed-top" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg navbar-light" id="header">
             <div class="container-fluid">
-                <b class="navbar-brand text-white">HAJUR KO CAR RENTAL</b>
+                <b class="navbar-brand">HAJUR KO CAR RENTAL</b>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "Staff")">Staffs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "Customer")">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "Cars")">Cars</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "Offer")">Offers</a>
-                        </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <span class="nav-link text-white">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item">
+                                <span class="fw-bold" style="padding: 0.5rem 1rem;">
                                     @{
                                         var userName = User.Identity.Name;
                                         var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
                                         var user = await userManager.FindByNameAsync(userName);
-                                        var firstName = user.Id;
+                                        var firstName = user.FirstName;
                                     }
                                     @firstName
                                 </span>
-                            }
-                        </li>
-                    </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Staff")">Staffs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Customer")">Customers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Cars")">Cars</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Offer")">Offers</a>
+                            </li>
+
+                        </ul>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-info mx-3 text-white" href="@Url.Action("Login", "UserUtils")">
+                            Log In
+                        </button>
+                    }
+
                 </div>
             </div>
         </nav>
+        @*        <div class="container d-flex align-items-center">
+        <h1 class="logo me-auto"><a asp-controller="Home" asp-action="Index">Car Rental App</a></h1>
 
 
+        </div>*@
     </header>
-    <br />
-    <br />
+    <!-- Top Bar -->
+
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 pt-4">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer id="footer">
         <div class="container">
-            &copy; 2023 - Hajur Ko Car Rental
+            <div class="copyright">
+                &copy; Copyright <strong><span>CarRentalApp</span></strong>. All Rights Reserved.
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
         </div>
-    </footer>
+    </footer><!-- End Footer -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Vendor JS Files -->
+    <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/js/LandingPage.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
