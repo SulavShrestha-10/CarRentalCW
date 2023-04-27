@@ -10,8 +10,7 @@ namespace CarRentalApp.Models
         [ForeignKey("Id")] public string UserID { get; set; }
         [ForeignKey("CarID")] public int? CarID { get; set; }
         public DateTime RequestDate { get; set; }
-        public DateTime ReturnDate { get; set; }
-        public string? Status { get; set; }
+        public RentalRequestStatus Status { get; set; }
         [ForeignKey("Id")] public string? AuthorizedBy { get; set; }
         public virtual AppUser User { get; set; }
         public virtual Car Car { get; set; }

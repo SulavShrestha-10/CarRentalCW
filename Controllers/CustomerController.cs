@@ -88,7 +88,7 @@ namespace CarRentalApp.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             user.EmailConfirmed = true;
             await _userManager.UpdateAsync(user);
-            return result.Succeeded ? RedirectToAction("Login", "Customer") : View("Error");
+            return result.Succeeded ? RedirectToAction("Login", "UserUtils") : View("Error");
         }
 
     }
