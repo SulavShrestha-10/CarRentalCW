@@ -4,9 +4,9 @@
 
 @model IEnumerable<CarRentalApp.Models.Car>
 
-<h1 class="my-3 text-center text-white" style="background-color: #ff6b6b; padding: 1rem;">Cars</h1>
+<h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Cars</h1>
 <div class="d-flex my-2 justify-content-end">
-    <a asp-action="Create" class="btn btn-primary float-end">Add New Car</a>
+    <a asp-action="Create" class="btn login-btn float-end">Add New Car</a>
 </div>
 
 
@@ -24,7 +24,7 @@
                     <p class="card-text"><b>Rental Price: </b>@car.RentalRate</p>
                     <p class="card-text"><b>VehicleNo: </b>@car.VehicleNo</p>
                     <p class="card-text"><b>Availability: </b>@car.IsAvailable</p>
-                    <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn btn-primary">Book Now</a>
+                    <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
                 </div>
             </div>
         </div>
