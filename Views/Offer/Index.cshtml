@@ -4,12 +4,49 @@
     ViewData["Title"] = "Offers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
 
-<h1>Offers</h1>
+    .btn-primary {
+        background-color: #0984e3;
+        border-color: #0984e3;
+    }
 
-<p>
-    <a asp-action="Create">Create New Offer</a>
-</p>
+    .btn-primary:hover {
+        background-color: #74b9ff;
+        border-color: #74b9ff;
+    }
+
+    .alert-danger {
+        background-color: #e74c3c;
+        color: #fff;
+    }
+
+    th, td {
+        font-size: 1.1rem;
+        vertical-align: middle;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .bi-trash {
+        font-size: 1.2rem;
+    }
+
+</style>
+
+<h1 class="my-3 text-center text-white" style="background-color: #ff6b6b; padding: 1rem;">Offers</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-primary" asp-action="Create" style="background-color: #00cec9; border-color: #00cec9;">Make New Offer</a>
+</div>
+
+
 @if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">
@@ -17,31 +54,36 @@
     </div>
 }
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Car</th>
-            <th>Discount Rate</th>
-            <th>Description</th>
-            <th>End Date</th>
-            <th>Is Valid</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@($"{item.Car.Manufacturer} {item.Car.Model} {item.Car.Color}")</td>
-                <td>@item.DiscountRate</td>
-                <td>@item.OfferDescription</td>
-                <td>@item.OfferEndDate.ToString("MM/dd/yyyy")</td>
-                <td>@(item.IsValid == true ? "Yes" : (item.IsValid == false ? "No" : "-"))</td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.OfferID">Delete</a>
-                </td>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" style="background-color: #fff;">
+        <thead>
+            <tr style="background-color: #2d3436; color: #fff;">
+                <th style="width: 20%;">Car</th>
+                <th style="width: 15%;">Discount Rate</th>
+                <th style="width: 35%;">Description</th>
+                <th style="width: 15%;">End Date</th>
+                <th style="width: 10%;">Is Valid</th>
+                <th style="width: 20%;">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@($"{item.Car.Manufacturer} {item.Car.Model} {item.Car.Color}")</td>
+                    <td>@item.DiscountRate</td>
+                    <td>@item.OfferDescription</td>
+                    <td>@item.OfferEndDate.ToString("MM/dd/yyyy")</td>
+                    <td>@(item.IsValid == true ? "Yes" : (item.IsValid == false ? "No" : "-"))</td>
+                    <td>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OfferID">
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
