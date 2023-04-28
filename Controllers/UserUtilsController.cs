@@ -16,6 +16,7 @@ namespace CarRentalApp.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {

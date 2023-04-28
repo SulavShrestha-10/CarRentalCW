@@ -16,6 +16,7 @@
                 <th>Car</th>
                 <th>Request Date</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,9 @@
                     <td>@rentalRequest.Car.Manufacturer @rentalRequest.Car.Model</td>
                     <td>@rentalRequest.RequestDate</td>
                     <td>@rentalRequest.Status</td>
+                    <td>
+                        <a href="@Url.Action("Create", "Damage", new { carId = rentalRequest.CarID, reqId = rentalRequest.ReqID, userId = rentalRequest.UserID })" class="btn btn-primary">Report Damage</a>
+                    </td>
                 </tr>
             }
         </tbody>

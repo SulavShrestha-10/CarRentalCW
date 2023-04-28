@@ -18,6 +18,19 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 builder.Services.Configure<EmailSenderOptions>(builder.Configuration.GetSection("EmailSenderOptions"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    foreach (var damage in dbContext.Damages.Where(damage => damage.DamageStatus == DamageStatus.PendingPayment && damage.PaymentDeadline < DateTime.Today))
+    {
+        // Change damage status to unpaid
+        damage.DamageStatus = DamageStatus.Unpaid;
+    }
+
+    await dbContext.SaveChangesAsync();
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

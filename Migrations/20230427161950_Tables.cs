@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRentalApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AllTables : Migration
+    public partial class Tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -252,10 +252,11 @@ namespace CarRentalApp.Migrations
                     CarID = table.Column<int>(type: "int", nullable: false),
                     RentalID = table.Column<int>(type: "int", nullable: false),
                     DamageDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DamageStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DamageStatus = table.Column<int>(type: "int", nullable: true),
+                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     DamageRequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaidDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PaymentDeadline = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
