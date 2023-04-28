@@ -77,6 +77,7 @@ namespace CarRentalApp.Controllers
 
         public async Task<IActionResult> Approve(int id)
         {
+
             var rentalRequest = await _context.RentalRequests
                 .Include(r => r.Car)
                 .FirstOrDefaultAsync(r => r.ReqID == id);
@@ -95,6 +96,8 @@ namespace CarRentalApp.Controllers
             {
                 return NotFound();
             }
+
+
             var rentalHistory = new RentalHistory
             {
                 CarID = (int)rentalRequest.CarID,
@@ -144,6 +147,25 @@ namespace CarRentalApp.Controllers
             await _emailSender.SendEmailAsync(user.Email, emailSubject, emailMessage);
 
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var rentalRequest = await _context.RentalRequests
+                .Include(r => r.User)
+                .Include(r => r.Car)
+                .FirstOrDefaultAsync(r => r.ReqID == id && r.Status == RentalRequestStatus.Pending);
+
+            if (rentalRequest == null)
+            {
+                return NotFound();
+            }
+            rentalRequest.Car.IsAvailable = true;
+            rentalRequest.Status = RentalRequestStatus.Canceled;
+            _context.RentalRequests.Update(rentalRequest);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

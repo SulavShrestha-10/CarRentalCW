@@ -33,6 +33,10 @@
                                 {
                                     <a href="@Url.Action("Create", "Damage", new { carId = rentalRequest.CarID, reqId = rentalRequest.ReqID, userId = rentalRequest.UserID })" class="btn btn-primary">Report Damage</a>
                                 }
+                                @if (rentalRequest.Status != RentalRequestStatus.Canceled)
+                                {
+                                    <a href="@Url.Action("Cancel", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-primary">Cancel Request</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -64,10 +68,16 @@
                             <td>@rentalRequest.RequestDate</td>
                             <td>@rentalRequest.Status</td>
                             <td>
-                                @if (rentalRequest.Status == RentalRequestStatus.Pending)
+                                @if (rentalRequest.Status == RentalRequestStatus.Pending && rentalRequest.Status != RentalRequestStatus.Canceled)
                                 {
                                     <a href="@Url.Action("Approve", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-success">Approve</a>
                                     <a href="@Url.Action("Reject", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-danger">Reject</a>
+                                }
+                                @if (rentalRequest.Status == RentalRequestStatus.Approved)
+                                {
+                                    <a href="@Url.Action("Return", "RentalHistory", new { id = rentalRequest.ReqID })" class="btn btn-primary">Record Payment</a>
+
+
                                 }
                             </td>
                         </tr>
