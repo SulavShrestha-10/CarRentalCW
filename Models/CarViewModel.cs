@@ -15,5 +15,6 @@ public class CarViewModel
     [Required(ErrorMessage = "The Vehicle Number field is required.")]
     public string VehicleNo { get; set; }
 
+    public IFormFile CarImage { get; set; }
     public string CarImageURL { get; set; }
 }

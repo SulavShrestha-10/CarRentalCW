@@ -6,66 +6,67 @@
 }
 
 <h1>Rental Requests</h1>
-
-@if (ViewData["UserType"].ToString() == "Customer")
+<main class="table">
+@if (ViewData["UserType"]?.ToString() == "Customer")
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Request ID</th>
-                <th>Car</th>
-                <th>Request Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rentalRequest in Model)
-            {
+    <div class="table__body">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@rentalRequest.ReqID</td>
-                    <td>@rentalRequest.Car.Manufacturer @rentalRequest.Car.Model</td>
-                    <td>@rentalRequest.RequestDate</td>
-                    <td>@rentalRequest.Status</td>
-                    <td>
-                        <a href="@Url.Action("Create", "Damage", new { carId = rentalRequest.CarID, reqId = rentalRequest.ReqID, userId = rentalRequest.UserID })" class="btn btn-primary">Report Damage</a>
-                    </td>
+                    <th>Request ID</th>
+                    <th>Car</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var rentalRequest in Model)
+                {
+                    <tr>
+                        <td>@rentalRequest.ReqID</td>
+                        <td>@rentalRequest.Car.Manufacturer @rentalRequest.Car.Model</td>
+                        <td>@rentalRequest.RequestDate</td>
+                        <td>@rentalRequest.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
-else if (ViewData["UserType"].ToString() == "Admin" || ViewData["UserType"].ToString() == "Staff")
+else if (ViewData["UserType"]?.ToString() == "Admin" || ViewData["UserType"]?.ToString() == "Staff")
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Request ID</th>
-                <th>Car</th>
-                <th>User</th>
-                <th>Request Date</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rentalRequest in Model)
-            {
+    <div class="table__body">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@rentalRequest.ReqID</td>
-                    <td>@rentalRequest.Car.Manufacturer @rentalRequest.Car.Model</td>
-                    <td>@rentalRequest.User.FirstName @rentalRequest.User.LastName</td>
-                    <td>@rentalRequest.RequestDate</td>
-                    <td>@rentalRequest.Status</td>
-                    <td>
-                        @if (rentalRequest.Status == RentalRequestStatus.Pending)
-                        {
-                            <a href="@Url.Action("Approve", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-success">Approve</a>
-                            <a href="@Url.Action("Reject", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-danger">Reject</a>
-                        }
-                    </td>
+                    <th>Request ID</th>
+                    <th>Car</th>
+                    <th>User</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var rentalRequest in Model)
+                {
+                    <tr>
+                        <td>@rentalRequest.ReqID</td>
+                        <td>@rentalRequest.Car.Manufacturer @rentalRequest.Car.Model</td>
+                        <td>@rentalRequest.User.FirstName @rentalRequest.User.LastName</td>
+                        <td>@rentalRequest.RequestDate</td>
+                        <td>@rentalRequest.Status</td>
+                        <td>
+                            @if (rentalRequest.Status == RentalRequestStatus.Pending)
+                            {
+                                <a href="@Url.Action("Approve", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-success">Approve</a>
+                                <a href="@Url.Action("Reject", "RentalRequest", new { id = rentalRequest.ReqID })" class="btn btn-danger">Reject</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
+</main>
