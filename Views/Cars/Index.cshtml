@@ -1,15 +1,17 @@
-﻿@{
+﻿@model IEnumerable<CarRentalApp.Models.Car>
+
+@{
     ViewData["Title"] = "Car Page";
 }
 
-@model IEnumerable<CarRentalApp.Models.Car>
+    <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">@ViewBag.Heading</h1>
+@if (User.IsInRole("Admin") || User.IsInRole("Staff"))
+{
+    <div class="d-flex my-2 justify-content-end">
+        <a asp-action="Create" class="btn login-btn float-end">Add New Car</a>
+    </div>
 
-<h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Cars</h1>
-<div class="d-flex my-2 justify-content-end">
-    <a asp-action="Create" class="btn login-btn float-end">Add New Car</a>
-</div>
-
-
+}
 <div class="row my-3 row-cols-4 g-4">
     @foreach (var car in Model)
     {
@@ -24,7 +26,10 @@
                     <p class="card-text"><b>Rental Price: </b>@car.RentalRate</p>
                     <p class="card-text"><b>VehicleNo: </b>@car.VehicleNo</p>
                     <p class="card-text"><b>Availability: </b>@car.IsAvailable</p>
-                    <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
+                    @if (User.IsInRole("Customer") && car.IsAvailable == true)
+                    {
+                        <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
+                    }
                 </div>
             </div>
         </div>

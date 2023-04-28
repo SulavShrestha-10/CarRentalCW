@@ -5,6 +5,7 @@
         Pending,
         Approved,
         Rejected,
-        Returned
+        Returned,
+        Canceled
     }
 }

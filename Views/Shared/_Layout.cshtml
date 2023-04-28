@@ -57,17 +57,38 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            @if (User.IsInRole("Staff") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index", "Staff")">Staffs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index", "Customer")">Customers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index", "Offer")">Offers</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Cars
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Cars")">All Cars</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Cars", new { view = "available" })">Available</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Cars", new { view = "onrent" })">On Rent</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Cars", new { view = "frequentlyrented" })">Frequently Rented</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Cars", new { view = "notrented" })">Not Rented</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Index", "Cars")">Cars</a>
+                                </li>
+                            }
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Staff")">Staffs</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Customer")">Customers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Cars")">Cars</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Offer")">Offers</a>
+                                <a class="nav-link" href="@Url.Action("Index", "RentalRequest")">Rental Requests</a>
                             </li>
                             <li class="nav-item">
                                 <form asp-controller="UserUtils" asp-action="Logout" method="post">
@@ -87,11 +108,7 @@
                 </div>
             </div>
         </nav>
-        @*        <div class="container d-flex align-items-center">
-        <h1 class="logo me-auto"><a asp-controller="Home" asp-action="Index">Car Rental App</a></h1>
 
-
-        </div>*@
     </header>
     <!-- Top Bar -->
 
@@ -101,7 +118,7 @@
         </main>
     </div>
 
-    <footer id="footer" class="fixed-bottom">
+    <footer class="bg-light text-center text-lg-start py-3">
         <div class="container">
             <div class="copyright">
                 &copy; Copyright <strong><span>CarRentalApp</span></strong>. All Rights Reserved.
