@@ -73,16 +73,19 @@ namespace CarRentalApp.Migrations
                     b.Property<DateTime>("DamageRequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DamageStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DamageStatus")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("PaidDate")
+                    b.Property<DateTime?>("PaidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("PaymentDeadline")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("RentalID")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalCost")
+                    b.Property<decimal?>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserID")
