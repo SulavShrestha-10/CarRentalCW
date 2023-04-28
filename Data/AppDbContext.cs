@@ -110,5 +110,7 @@ namespace CarRentalApp.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
         }
+
+        public DbSet<CarRentalApp.Models.StaffUpdateViewModel> StaffUpdateViewModel { get; set; } = default!;
     }
 }
