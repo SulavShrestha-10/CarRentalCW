@@ -285,9 +285,9 @@ namespace CarRentalApp.Migrations
                 name: "RentalHistories",
                 columns: table => new
                 {
+                    RentalID = table.Column<int>(type: "int", nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CarID = table.Column<int>(type: "int", nullable: false),
-                    RentalID = table.Column<int>(type: "int", nullable: false),
                     TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RentalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -295,7 +295,7 @@ namespace CarRentalApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentalHistories", x => new { x.UserID, x.CarID });
+                    table.PrimaryKey("PK_RentalHistories", x => x.RentalID);
                     table.ForeignKey(
                         name: "FK_RentalHistories_AspNetUsers_AuthorizedByID",
                         column: x => x.AuthorizedByID,
@@ -402,9 +402,9 @@ namespace CarRentalApp.Migrations
                 column: "CarID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalHistories_RentalID",
+                name: "IX_RentalHistories_UserID",
                 table: "RentalHistories",
-                column: "RentalID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentalRequests_AuthorizedBy",

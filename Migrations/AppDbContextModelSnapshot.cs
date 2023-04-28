@@ -221,21 +221,18 @@ namespace CarRentalApp.Migrations
 
             modelBuilder.Entity("CarRentalApp.Models.RentalHistory", b =>
                 {
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CarID")
+                    b.Property<int>("RentalID")
                         .HasColumnType("int");
 
                     b.Property<string>("AuthorizedByID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("RentalDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("RentalID")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("datetime2");
@@ -243,13 +240,17 @@ namespace CarRentalApp.Migrations
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("UserID", "CarID");
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RentalID");
 
                     b.HasIndex("AuthorizedByID");
 
                     b.HasIndex("CarID");
 
-                    b.HasIndex("RentalID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("RentalHistories");
                 });
