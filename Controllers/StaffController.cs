@@ -92,8 +92,8 @@ namespace CarRentalApp.Controllers
 
             var viewModel = new StaffUpdateViewModel
             {
-                FirstName = "",
-                LastName = "",
+                FirstName = staff.FirstName,
+                LastName = staff.LastName,
                 Password = ""
             };
 
@@ -111,9 +111,6 @@ namespace CarRentalApp.Controllers
             }
 
             var staff = await _context.Users
-                    .Include(d => d.Id)
-                    .Include(d => d.FirstName)
-                    .Include(d => d.LastName)
                     .FirstOrDefaultAsync(d => d.Id == id);
 
             if (staff == null)
