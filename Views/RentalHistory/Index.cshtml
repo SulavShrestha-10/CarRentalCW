@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<CarRentalApp.Models.RentalHistory>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Car</th>
+            @if (ViewData["UserType"].ToString() != "Customer")
+            {
+                <th>User Name</th>
+            }
+            <th>Date Rented</th>
+            <th>Days Rented</th>
+            <th>Total Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rentalHistory in Model)
+        {
+            <tr>
+                <td>@rentalHistory.Car.Manufacturer @rentalHistory.Car.Model</td>
+                @if (ViewData["UserType"].ToString() != "Customer")
+                {
+                    <td>@rentalHistory.User.FirstName @rentalHistory.User.LastName</td>
+                }
+                <td>@rentalHistory.RentalDate.ToShortDateString()</td>
+                <td>
+                    @if (rentalHistory.ReturnedDate != null)
+                    {
+                        int rentalDays = (int)Math.Ceiling(((TimeSpan)(rentalHistory.ReturnedDate - rentalHistory.RentalDate)).TotalDays);
+                        rentalDays = rentalDays == 0 ? 1 : rentalDays;
+                        @rentalDays
+                    }
+                </td>
+                <td>Rs. @rentalHistory.TotalCost.ToString()</td>
+                
+            </tr>
+        }
+    </tbody>
+</table> 
+
+
+
