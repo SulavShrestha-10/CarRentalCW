@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
+using System.Security.Claims;
 
 namespace CarRentalApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace CarRentalApp.Controllers
         public async Task<IActionResult> Index(string view = "all")
         {
             IQueryable<Car> query = _context.Cars.AsQueryable();
-
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             switch (view.ToLower())
             {
                 case "available":
@@ -51,7 +52,11 @@ namespace CarRentalApp.Controllers
                     ViewBag.Heading = "All Cars";
                     break;
             }
-
+            if (User.IsInRole("Customer"))
+            {
+                var rentalRequests = _context.RentalRequests.Where(r => r.UserID == userId).ToList();
+                ViewBag.ExistingRequests = rentalRequests;
+            }
             var cars = await query.ToListAsync();
 
             return View(cars);

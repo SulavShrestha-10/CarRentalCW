@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Car Page";
+    var existingRequests = ViewBag.ExistingRequests as List<CarRentalApp.Models.RentalRequest>;
 }
 
     <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">@ViewBag.Heading</h1>
@@ -28,7 +29,18 @@
                     <p class="card-text"><b>Availability: </b>@car.IsAvailable</p>
                     @if (User.IsInRole("Customer") && car.IsAvailable == true)
                     {
-                        <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
+                        var existingRequestForCurrentCar = existingRequests.FirstOrDefault(r => r.CarID == car.CarID && r.Status == RentalRequestStatus.Pending);
+
+                        // If there is an existing rental request, display a message to the user
+                        if (existingRequestForCurrentCar != null)
+                        {
+                            <p class="card-text text-danger">You have already made a rental request for this car which is pending for approval.</p>
+                        }
+                        else
+                        {
+                            // If there is no existing rental request, display the "Book Now" button
+                            <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
+                        }
                     }
                 </div>
             </div>

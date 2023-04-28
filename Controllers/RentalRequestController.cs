@@ -104,7 +104,7 @@ namespace CarRentalApp.Controllers
                 TotalCost = rentalRequest.Car.RentalRate,
                 RentalRequest = rentalRequest
             };
-
+            rentalRequest.Car.IsAvailable = false;
             _context.RentalHistories.Add(rentalHistory);
             await _context.SaveChangesAsync();
 

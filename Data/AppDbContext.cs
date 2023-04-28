@@ -63,9 +63,6 @@ namespace CarRentalApp.Data
                 .HasForeignKey(d => d.CarID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // many-to-many relationship between AppUser and Car (through RentalHistory)
-            modelBuilder.Entity<RentalHistory>()
-                .HasKey(rh => new { rh.UserID, rh.CarID });
 
             modelBuilder.Entity<RentalHistory>()
                 .HasOne(rh => rh.User)
