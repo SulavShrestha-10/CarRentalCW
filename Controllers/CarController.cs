@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
 
 namespace CarRentalApp.Controllers
 {
@@ -54,6 +56,22 @@ namespace CarRentalApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var account = new Account(
+            "niwahang",
+            "795422516494254",
+            "ydyImVZdZAVjunXmkcaWPiNTcKA");
+                var cloudinary = new Cloudinary(account);
+
+                var uploadResult = new ImageUploadResult();
+                if (carViewModel.CarImage != null)
+                {
+                    var uploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(carViewModel.CarImage.FileName, carViewModel.CarImage.OpenReadStream())
+                    };
+                    uploadResult = await cloudinary.UploadAsync(uploadParams);
+                }
+
                 var car = new Car
                 {
                     Manufacturer = carViewModel.Manufacturer,
@@ -61,7 +79,7 @@ namespace CarRentalApp.Controllers
                     RentalRate = carViewModel.RentalRate,
                     VehicleNo = carViewModel.VehicleNo,
                     IsAvailable = true,
-                    CarImageURL = carViewModel.CarImageURL
+                    CarImageURL = uploadResult.SecureUrl?.ToString()
                 };
 
                 _context.Add(car);
