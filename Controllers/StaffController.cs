@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using CarRentalApp.Models;
 using NuGet.Packaging;
+using CarRentalApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Controllers
 {
@@ -15,9 +17,11 @@ namespace CarRentalApp.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly AppDbContext _context;
 
-        public StaffController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public StaffController(AppDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -76,6 +80,54 @@ namespace CarRentalApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Update(string id)
+        {
+            var staff = await _context.Users.FindAsync(id);
 
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new StaffUpdateViewModel
+            {
+                FirstName = "",
+                LastName = "",
+                Password = ""
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(string id, StaffUpdateViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var staff = await _context.Users
+                    .Include(d => d.Id)
+                    .Include(d => d.FirstName)
+                    .Include(d => d.LastName)
+                    .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            staff.FirstName = viewModel.FirstName;
+            staff.LastName = viewModel.LastName;
+            staff.PasswordHash = viewModel.Password;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }
