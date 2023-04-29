@@ -31,6 +31,10 @@ namespace CarRentalApp.Models
 
         [Display(Name = "User Type")]
         public string? UserType { get; set; }
+        [Display(Name = "Citizenship Image")]
+        public IFormFile? CitizenshipImage { get; set; }
+        [Display(Name = "License Image")]
+        public IFormFile? LicenseImage { get; set; }
 
     }
 }

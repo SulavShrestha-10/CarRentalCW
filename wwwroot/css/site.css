@@ -131,3 +131,7 @@ thead th:hover {
 thead th.active, tbody td.active {
     color: #6c00bd;
 }
+
+#image-fields {
+    display: none;
+}

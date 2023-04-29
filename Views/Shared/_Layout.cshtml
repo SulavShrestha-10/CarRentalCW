@@ -25,7 +25,20 @@
     <link href="~/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="~/css/LandingPage.css">
+    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="~/js/site.js" defer asp-append-version="true"></script>
+    <!-- Vendor JS Files -->
+    <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/vendor/php-email-form/validate.js"></script>
 
+    <!-- Template Main JS File -->
+    <script src="~/js/LandingPage.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("AddCustomStyles", false)
 </head>
 <body>
@@ -120,27 +133,12 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="bg-light text-center text-lg-start py-3" style="bottom:0;position: absolute;width:100%;">
-        <div class="container">
-            <div class="copyright">
-                &copy; Copyright <strong><span>Hajur Ko Car Rental</span></strong>. All Rights Reserved.
-            </div>
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3">
+            &copy; 2023 - Copyright - <a asp-area="" asp-controller="Home" asp-action="Index">HajurKoCarRental</a>
         </div>
-    </footer><!-- End Footer -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <!-- Vendor JS Files -->
-    <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="~/vendor/aos/aos.js"></script>
-    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="~/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="~/js/LandingPage.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <!-- Copyright -->
+    </footer>
 </body>
 </html>
