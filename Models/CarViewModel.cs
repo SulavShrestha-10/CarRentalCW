@@ -16,5 +16,4 @@ public class CarViewModel
     public string VehicleNo { get; set; }
 
     public IFormFile CarImage { get; set; }
-    public string CarImageURL { get; set; }
 }
