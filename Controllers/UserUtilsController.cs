@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace CarRentalApp.Controllers
 {
@@ -102,5 +103,65 @@ namespace CarRentalApp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProfileUpdate(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new UserProfileModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                UserName = user.UserName,
+                Password = "",
+                DrivingLicenseURL = user.DrivingLicenseURL,
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProfileUpdate(string id, UserProfileModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var user = await _context.Users
+                    .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var hashedPassword = _userManager.PasswordHasher.HashPassword(user, viewModel.Password);
+
+            user.FirstName = viewModel.FirstName;
+            user.LastName = viewModel.LastName;
+            user.PasswordHash = hashedPassword;
+            user.PhoneNumber = viewModel.PhoneNumber;
+            user.UserName = viewModel.UserName;
+            user.DrivingLicenseURL = viewModel.DrivingLicenseURL;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
