@@ -108,6 +108,7 @@ namespace CarRentalApp.Controllers
                 RentalRequest = rentalRequest
             };
             rentalRequest.Car.IsAvailable = false;
+            rentalRequest.AuthorizedBy = userId;
             _context.RentalHistories.Add(rentalHistory);
             await _context.SaveChangesAsync();
 
