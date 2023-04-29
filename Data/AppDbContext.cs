@@ -112,5 +112,7 @@ namespace CarRentalApp.Data
         }
 
         public DbSet<CarRentalApp.Models.StaffUpdateViewModel> StaffUpdateViewModel { get; set; } = default!;
+
+        public DbSet<CarRentalApp.Models.UserProfileModel> UserProfileModel { get; set; } = default!;
     }
 }

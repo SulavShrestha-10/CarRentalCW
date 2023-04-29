@@ -117,10 +117,11 @@ namespace CarRentalApp.Controllers
             {
                 return NotFound();
             }
+            var hashedPassword = _userManager.PasswordHasher.HashPassword(staff, viewModel.Password);
 
             staff.FirstName = viewModel.FirstName;
             staff.LastName = viewModel.LastName;
-            staff.PasswordHash = viewModel.Password;
+            staff.PasswordHash = hashedPassword;
 
             await _context.SaveChangesAsync();
 
