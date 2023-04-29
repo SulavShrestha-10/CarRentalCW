@@ -77,8 +77,8 @@ namespace CarRentalApp.Controllers
 
             if (offers.Count > 0)
             {
-                var offerDiscount = offers[0].DiscountRate / 100m;
-                rentalRate *= (1m - offerDiscount); // Apply offer discount
+                var offerDiscount = offers[0].DiscountRate / 100;
+                rentalRate *= (1 - offerDiscount); // Apply offer discount
             }
             // Calculate total cost using the discounted rental rate
             decimal days = (decimal)(currentDate - rentalHistory.RentalDate).TotalDays;
