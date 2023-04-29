@@ -148,7 +148,7 @@ namespace CarRentalApp.Controllers
         // POST: Cars/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarID,Manufacturer,Model,RentalRate,VehicleNo")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarID,Manufacturer,Model,Color,IsAvailable,RentalRate,VehicleNo,CarImageURL")] Car car)
         {
             if (id != car.CarID)
             {
