@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Encodings.Web;
 using CarRentalApp.Models;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
 
 namespace CarRentalApp.Controllers
 {
@@ -48,7 +50,45 @@ namespace CarRentalApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, IsRegular = false, Discount = 0, IsActive = false };
+                var account = new Account(
+                    "niwahang",
+                    "795422516494254",
+                    "ydyImVZdZAVjunXmkcaWPiNTcKA");
+                var cloudinary = new Cloudinary(account);
+                var licenseUploadResult = new ImageUploadResult();
+                var citizenshipUploadResult = new ImageUploadResult();
+                if (model.CitizenshipImage != null)
+                {
+                    var citizenshipUploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(model.CitizenshipImage.FileName, model.CitizenshipImage.OpenReadStream())
+                    };
+                    citizenshipUploadResult = await cloudinary.UploadAsync(citizenshipUploadParams);
+                }
+
+                if (model.LicenseImage != null)
+                {
+
+                    var licenseUploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(model.LicenseImage.FileName, model.LicenseImage.OpenReadStream())
+                    };
+                    licenseUploadResult = await cloudinary.UploadAsync(licenseUploadParams);
+                }
+
+                var user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    IsRegular = false,
+                    Discount = 0,
+                    IsActive = false,
+                    CitizenshipURL = citizenshipUploadResult.SecureUrl?.ToString(),
+                    DrivingLicenseURL = licenseUploadResult.SecureUrl?.ToString(),
+
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

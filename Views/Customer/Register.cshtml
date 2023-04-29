@@ -1,54 +1,86 @@
 ﻿@model CarRentalApp.Models.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (ViewData["CitizenshipUploadError"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["CitizenshipUploadError"]
+    </div>
+}
+@if (ViewData["LicenseUploadError"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["LicenseUploadError"]
+    </div>
+}
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
                 <div class="card-body p-5 text-center">
-                    <form asp-action ="Register" method="post">
+                    <form asp-action="Register" method="post" enctype="multipart/form-data">
                         <h3 class="mb-5">Register</h3>
-                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group text-start">
                             <label asp-for="Email" class="control-label"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                             <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
                                 <input asp-for="Email" class="form-control form-control-lg" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
+                                
                             </div>
                         </div>
                         <div class="form-group text-start">
                             <label asp-for="Password" class="control-label"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                             <div class="form-outline mb-4 shadow-2-strong border" style="border-radius: 1rem;">
                                 <input asp-for="Password" class="form-control form-control-lg" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
+                                
                             </div>
                         </div>
                         <div class="form-group text-start">
                             <label asp-for="ConfirmPassword"></label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
                                 <input asp-for="ConfirmPassword" class="form-control" />
-                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                
                             </div>
                         </div>
 
                         <div class="form-group text-start">
                             <label asp-for="FirstName"></label>
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                             <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
                                 <input asp-for="FirstName" class="form-control" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                                
                             </div>
                         </div>
 
                         <div class="form-group text-start">
-
                             <label asp-for="LastName"></label>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
                             <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
                                 <input asp-for="LastName" class="form-control" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+                                
                             </div>
                         </div>
+
+                        <div id="image-fields">
+                            <div class="form-group text-start">
+                                <label asp-for="CitizenshipImage" class="control-label"></label>
+                                <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                    <input asp-for="CitizenshipImage" type="file" name="CitizenshipImage" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group text-start">
+                                <label asp-for="LicenseImage" class="control-label"></label>
+                                <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                    <input asp-for="LicenseImage" type="file" name="LicenseImage" class="form-control" />
+                                </div>
+                            </div>
+                            <!-- Add more form fields here if needed -->
+                        </div>
+                        <button id="show-image-fields-btn" class="btn btn-block btn-primary mb-1" style="display: inline-block; margin-right: 20px; margin-left: 5px;" type="button">Add Images</button>
                         @Html.AntiForgeryToken()
                         <button class="btn login-btn btn-block mb-2" style="display: inline-block; margin-right: 20px; margin-left: 5px;" type="submit">Register</button>
                     </form>
@@ -57,3 +89,4 @@
         </div>
     </div>
 </div>
+

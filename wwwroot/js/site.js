@@ -2,3 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+    $("#show-image-fields-btn").click(function () {
+        $("#image-fields").toggle();
+        $(this).text(function (i, text) {
+            return text === "Add Images" ? "Hide Fields" : "Add Images";
+        });
+    });
+});
