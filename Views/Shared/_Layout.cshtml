@@ -43,16 +43,16 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="fw-bold" style="padding: 0.5rem 1rem;">
-                                    Welcome,
+                                   
                                     @{
                                         var userName = User.Identity.Name;
                                         var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
                                         var user = await userManager.FindByNameAsync(userName);
                                         var firstName = user?.FirstName ?? "Guest";
                                     }
-                                    @firstName
-                                </span>
+                                    <a class="nav-link fw-bold text-black" asp-controller="UserUtils" asp-action="Index">
+                                        Welcome, @firstName
+                                    </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
