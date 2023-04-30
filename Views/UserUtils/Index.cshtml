@@ -17,8 +17,12 @@
                 <div class="card-header">
                     <h4>User Profile</h4>
                     <div class="d-flex my-2 justify-content-end">
-                            <a asp-action="ProfileUpdate" class="btn login-btn float-end" asp-route-id="@user.Id">Edit</a>
+                        <a asp-action="ProfileUpdate" class="btn login-btn float-end" asp-route-id="@user.Id">Edit</a>
+                        @if (@user.CitizenshipURL == null || @user.DrivingLicenseURL == null)
+                        {
+                            <a class="btn login-btn float-end" href="@Url.Action("AddImages", "Customer")">Add Images</a>
 
+                        }
                     </div>
                 </div>
                 <div class="card-body">
@@ -48,7 +52,7 @@
                     </div>
                     @if (isCustomer)
                     {
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <label for="inputDrivingLicense" class="col-sm-4 col-form-label">Driving License:</label>
                             <div class="col-sm-8">
                                 @if (!string.IsNullOrEmpty(user.DrivingLicenseURL))
@@ -61,7 +65,7 @@
                                 }
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <label for="inputCitizenship" class="col-sm-4 col-form-label">Citizenship:</label>
                             <div class="col-sm-8">
                                 @if (!string.IsNullOrEmpty(user.CitizenshipURL))
