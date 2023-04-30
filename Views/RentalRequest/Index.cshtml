@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Rental Requests</h1>
+<h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Rental Requests</h1>
 <main class="table">
     @if (ViewData["UserType"]?.ToString() == "Customer")
     {
         <div class="table__body">
-            <table class="table">
+            <table>
                 <thead>
                     <tr>
                         <th>Request ID</th>
@@ -47,7 +47,7 @@
     else if (ViewData["UserType"]?.ToString() == "Admin" || ViewData["UserType"]?.ToString() == "Staff")
     {
         <div class="table__body">
-            <table class="table">
+            <table>
                 <thead>
                     <tr>
                         <th>Request ID</th>
