@@ -6,9 +6,12 @@
 }
 
 <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Staffs</h1>
-<a href="@Url.Action("Register", "Staff")">Register Staff</a>
+
 <main class="table">
     <div class="table__body">
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn login-btn" href="@Url.Action("Register", "Staff")" style="background-color: #00cec9; border-color: #00cec9;">Register Staff</a>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -36,7 +39,7 @@
                             }
                         </td>
                         <td>
-                            <a class="btn btn-primary" asp-action="Update" asp-route-id="@user.Id">
+                            <a class="btn login-btn" asp-action="Update" asp-route-id="@user.Id">
                                 Edit
                             </a>
                         </td>

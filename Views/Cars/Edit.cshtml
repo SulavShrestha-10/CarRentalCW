@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Update Car Information</h1>
 
-<h4>Car</h4>
+<h4>Edit Car Details</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -48,15 +48,13 @@
                 <input asp-for="CarImageURL" class="form-control" />
                 <span asp-validation-for="CarImageURL" class="text-danger"></span>
             </div>
+            <br/>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn login-btn" />
+                <a asp-action="Index" type="reset" class="btn btn-default">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -115,7 +115,6 @@ h6 {
 * Appointment Button
 */
 .login-btn {
-    margin-left: 25px;
     background: #3fbbc0;
     color: #fff;
     border-radius: 4px;
@@ -133,7 +132,6 @@ h6 {
 
 @media (max-width: 768px) {
     .login-btn {
-        margin: 0 15px 0 0;
         padding: 6px 15px;
     }
 }
@@ -633,139 +631,6 @@ section {
         .breadcrumbs ol li {
             display: inline-block;
         }
-}
-
-/*--------------------------------------------------------------
-# Featured Services
---------------------------------------------------------------*/
-.featured-services .icon-box {
-    padding: 30px;
-    position: relative;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-    transition: all 0.3s ease-in-out;
-    border-radius: 8px;
-    z-index: 1;
-}
-
-    .featured-services .icon-box::before {
-        content: "";
-        position: absolute;
-        background: #d9f1f2;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        top: 100%;
-        transition: all 0.3s;
-        z-index: -1;
-    }
-
-    .featured-services .icon-box:hover::before {
-        background: #3fbbc0;
-        top: 0;
-        border-radius: 0px;
-    }
-
-.featured-services .icon {
-    margin-bottom: 15px;
-}
-
-    .featured-services .icon i {
-        font-size: 48px;
-        line-height: 1;
-        color: #3fbbc0;
-        transition: all 0.3s ease-in-out;
-    }
-
-.featured-services .title {
-    font-weight: 700;
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-    .featured-services .title a {
-        color: #111;
-    }
-
-.featured-services .description {
-    font-size: 15px;
-    line-height: 28px;
-    margin-bottom: 0;
-}
-
-.featured-services .icon-box:hover .title a,
-.featured-services .icon-box:hover .description {
-    color: #fff;
-}
-
-.featured-services .icon-box:hover .icon i {
-    color: #fff;
-}
-
-/*--------------------------------------------------------------
-# Services
---------------------------------------------------------------*/
-.services .icon-box {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.services .icon {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 50%;
-    transition: 0.5s;
-    color: #3fbbc0;
-    overflow: hidden;
-    box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
-}
-
-    .services .icon i {
-        font-size: 36px;
-        line-height: 0;
-    }
-
-.services .icon-box:hover .icon {
-    box-shadow: 0px 0 25px rgba(63, 187, 192, 0.3);
-}
-
-.services .title {
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 18px;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-    .services .title a {
-        color: #444444;
-        transition: 0.3s;
-    }
-
-        .services .title a:hover {
-            color: #3fbbc0;
-        }
-
-    .services .title::after {
-        content: "";
-        position: absolute;
-        display: block;
-        width: 50px;
-        height: 2px;
-        background: #3fbbc0;
-        bottom: 0;
-        left: calc(50% - 25px);
-    }
-
-.services .description {
-    line-height: 24px;
-    font-size: 14px;
 }
 
 /*--------------------------------------------------------------

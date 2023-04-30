@@ -92,22 +92,6 @@
     }
 
     /**
-     * Back to top button
-     */
-    let backtotop = select('.back-to-top')
-    if (backtotop) {
-        const toggleBacktotop = () => {
-            if (window.scrollY > 100) {
-                backtotop.classList.add('active')
-            } else {
-                backtotop.classList.remove('active')
-            }
-        }
-        window.addEventListener('load', toggleBacktotop)
-        onscroll(document, toggleBacktotop)
-    }
-
-    /**
      * Mobile nav toggle
      */
     on('click', '.mobile-nav-toggle', function (e) {
@@ -177,67 +161,6 @@
             heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "'></li>"
     });
 
-    /**
-     * Testimonials slider
-     */
-    new Swiper('.testimonials-slider', {
-        speed: 600,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-        },
-        slidesPerView: 'auto',
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'bullets',
-            clickable: true
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 20
-            },
-
-            1200: {
-                slidesPerView: 3,
-                spaceBetween: 20
-            }
-        }
-    });
-
-    /**
-     * Clients Slider
-     */
-    new Swiper('.gallery-slider', {
-        speed: 400,
-        loop: true,
-        centeredSlides: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-        },
-        slidesPerView: 'auto',
-        pagination: {
-            el: '.swiper-pagination',
-            type: 'bullets',
-            clickable: true
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 20
-            },
-            640: {
-                slidesPerView: 3,
-                spaceBetween: 20
-            },
-            992: {
-                slidesPerView: 5,
-                spaceBetween: 20
-            }
-        }
-    });
 
     /**
      * Initiate gallery lightbox 
