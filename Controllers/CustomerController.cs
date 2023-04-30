@@ -130,6 +130,66 @@ namespace CarRentalApp.Controllers
             await _userManager.UpdateAsync(user);
             return result.Succeeded ? RedirectToAction("Login", "UserUtils") : View("Error");
         }
+        public async Task<IActionResult> AddImages()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new AddImagesViewModel();
+            if (!string.IsNullOrEmpty(user.CitizenshipURL))
+            {
+                model.CitizenshipImageExists = true;
+            }
+            if (!string.IsNullOrEmpty(user.DrivingLicenseURL))
+            {
+                model.DrivingLicenseImageExists = true;
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddImages(AddImagesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = new Account(
+                    "niwahang",
+                    "795422516494254",
+                    "ydyImVZdZAVjunXmkcaWPiNTcKA");
+                var cloudinary = new Cloudinary(account);
+                var user = await _userManager.GetUserAsync(User);
+
+                if (!model.CitizenshipImageExists && model.CitizenshipImage != null)
+                {
+                    var citizenshipUploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(model.CitizenshipImage.FileName, model.CitizenshipImage.OpenReadStream())
+                    };
+                    var citizenshipUploadResult = await cloudinary.UploadAsync(citizenshipUploadParams);
+                    user.CitizenshipURL = citizenshipUploadResult.SecureUrl?.ToString();
+                }
+
+                if (!model.DrivingLicenseImageExists && model.DrivingLicenseImage != null)
+                {
+                    var licenseUploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(model.DrivingLicenseImage.FileName, model.DrivingLicenseImage.OpenReadStream())
+                    };
+                    var licenseUploadResult = await cloudinary.UploadAsync(licenseUploadParams);
+                    user.DrivingLicenseURL = licenseUploadResult.SecureUrl?.ToString();
+                }
+
+                await _userManager.UpdateAsync(user);
+
+                return RedirectToAction("Index","UserUtils");
+            }
+
+            return View(model);
+        }
 
     }
 }

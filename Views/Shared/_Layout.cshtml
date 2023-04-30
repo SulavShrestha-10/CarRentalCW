@@ -28,22 +28,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="~/js/site.js" defer asp-append-version="true"></script>
-    <!-- Vendor JS Files -->
-    <script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="~/vendor/aos/aos.js"></script>
-    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="~/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="~/js/LandingPage.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("AddCustomStyles", false)
 </head>
 <body>
     <!-- ======= Top Bar ======= -->
-    <header>
+    <header style="width:100%">
         <nav class="navbar navbar-expand-lg navbar-light" id="header">
             <div class="container-fluid">
                 <b class="navbar-brand">HAJUR KO CAR RENTAL</b>
@@ -51,21 +41,25 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                   
-                                    @{
-                                        var userName = User.Identity.Name;
-                                        var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
-                                        var user = await userManager.FindByNameAsync(userName);
-                                        var firstName = user?.FirstName ?? "Guest";
-                                    }
-                                    <a class="nav-link fw-bold text-black" asp-controller="UserUtils" asp-action="Index">
-                                        Welcome, @firstName
-                                    </a>
+                            <li class="nav-item dropdown">
+                                @{
+                                    var userName = User.Identity.Name;
+                                    var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
+                                    var user = await userManager.FindByNameAsync(userName);
+                                    var firstName = user?.FirstName ?? "Guest";
+                                }
+                                <a class="nav-link dropdown-toggle fw-bold text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome, @firstName
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-controller="UserUtils" asp-action="Index">Profile</a></li>
+                                    <li><a class="dropdown-item" asp-controller="UserUtils" asp-action="ChangePassword">Change Password</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="UserUtils" asp-action="Logout">Logout</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -106,11 +100,8 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Index", "RentalHistory")">Rental History</a>
                             </li>
-                            <li class="nav-item">
-                                <form asp-controller="UserUtils" asp-action="Logout" method="post">
-                                    <button type="submit" class="btn btn-info mx-3 text-white">Log Out</button>
-                                </form>
-                            </li>
+
+
                         }
                         @if (!User.Identity.IsAuthenticated)
                         {
@@ -128,7 +119,7 @@
     </header>
     <!-- Top Bar -->
 
-    <div class="container">
+    <div class="container" style="width:100%">
         <main role="main" class="pb-3 pt-4">
             @RenderBody()
         </main>
@@ -141,4 +132,15 @@
         <!-- Copyright -->
     </footer>
 </body>
+<!-- Vendor JS Files -->
+<script src="~/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="~/vendor/aos/aos.js"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="~/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="~/js/LandingPage.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </html>

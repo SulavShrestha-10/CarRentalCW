@@ -9,6 +9,7 @@ using NuGet.Packaging;
 using CarRentalApp.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace CarRentalApp.Controllers
 {
 
@@ -48,7 +49,17 @@ namespace CarRentalApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, IsRegular = false, Discount = 0, IsActive = false };
+                var user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    IsRegular = false,
+                    Discount = 0,
+                    IsActive = false
+                };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -90,11 +101,11 @@ namespace CarRentalApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new StaffUpdateViewModel
+            var viewModel = new UserProfileModel
             {
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
-                Password = ""
+                PhoneNumber = staff.PhoneNumber
             };
 
             return View(viewModel);
@@ -103,7 +114,7 @@ namespace CarRentalApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(string id, StaffUpdateViewModel viewModel)
+        public async Task<IActionResult> Update(string id, UserProfileModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -117,15 +128,63 @@ namespace CarRentalApp.Controllers
             {
                 return NotFound();
             }
-            var hashedPassword = _userManager.PasswordHasher.HashPassword(staff, viewModel.Password);
 
             staff.FirstName = viewModel.FirstName;
             staff.LastName = viewModel.LastName;
-            staff.PasswordHash = hashedPassword;
+            staff.PhoneNumber = viewModel.PhoneNumber;
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            var staff = await _userManager.FindByIdAsync(id);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            ViewBag.FirstName = staff.FirstName;
+            ViewBag.LastName = staff.LastName;
+            var viewModel = new ChangePasswordViewModel
+            {
+                UserId = staff.Id,
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var user = await _userManager.FindByIdAsync(viewModel.UserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, viewModel.OldPassword, viewModel.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(viewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

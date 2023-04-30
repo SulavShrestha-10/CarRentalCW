@@ -96,8 +96,7 @@ namespace CarRentalApp.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -124,9 +123,6 @@ namespace CarRentalApp.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
-                UserName = user.UserName,
-                Password = "",
-                DrivingLicenseURL = user.DrivingLicenseURL,
             };
 
             return View(viewModel);
@@ -149,19 +145,52 @@ namespace CarRentalApp.Controllers
             {
                 return NotFound();
             }
-            var hashedPassword = _userManager.PasswordHasher.HashPassword(user, viewModel.Password);
+
 
             user.FirstName = viewModel.FirstName;
             user.LastName = viewModel.LastName;
-            user.PasswordHash = hashedPassword;
             user.PhoneNumber = viewModel.PhoneNumber;
-            user.UserName = viewModel.UserName;
-            user.DrivingLicenseURL = viewModel.DrivingLicenseURL;
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("Index");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
+
 
     }
 }
