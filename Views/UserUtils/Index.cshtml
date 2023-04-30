@@ -18,7 +18,7 @@
                     <h4>User Profile</h4>
                     <div class="d-flex my-2 justify-content-end">
                         <a asp-action="ProfileUpdate" class="btn login-btn float-end" asp-route-id="@user.Id">Edit</a>
-                        @if (@user.CitizenshipURL == null || @user.DrivingLicenseURL == null)
+                        @if ((@user.CitizenshipURL == null || @user.DrivingLicenseURL == null) && isCustomer)
                         {
                             <a class="btn login-btn float-end" href="@Url.Action("AddImages", "Customer")">Add Images</a>
 
