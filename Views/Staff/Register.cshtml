@@ -12,7 +12,6 @@
                 <div class="card-body p-5 text-center">
                     <form asp-action="Register">
                         <h3 class="mb-5">Register Staff Member</h3>
-                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group text-start">
                             <label asp-for="Email" class="control-label"></label>
                             <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
@@ -36,39 +35,44 @@
                         </div>
 
                         <div class="form-group text-start">
-                                <label asp-for="FirstName"></label>
-                                <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
-                                    <input asp-for="FirstName" class="form-control" />
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                </div>
+                            <label asp-for="FirstName"></label>
+                            <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
+                        </div>
 
-                            <div class="form-group text-start">
+                        <div class="form-group text-start">
+                            <label asp-for="LastName"></label>
+                            <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group text-start">
+                            <label asp-for="PhoneNumber"></label>
+                            <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
 
-                                    <label asp-for="LastName"></label>
-                                    <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
-                                        <input asp-for="LastName" class="form-control" />
-                                        <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
-                                </div>
+                        <div class="form-group text-start">
+                            <label asp-for="UserType"></label>
+                            <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                <select asp-for="UserType" class="form-control">
+                                    <option value="">Select User Type</option>
+                                    @foreach (var role in new List<string> { UserRole.Admin, UserRole.Staff })
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="UserType" class="text-danger"></span>
+                            </div>
+                        </div>
 
-                                <div class="form-group text-start">
-
-                                        <label asp-for="UserType"></label>
-                                        <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
-                                            <select asp-for="UserType" class="form-control">
-                                                <option value="">Select User Type</option>
-                                                @foreach (var role in new List<string> { UserRole.Admin, UserRole.Staff })
-                                                {
-                                                    <option value="@role">@role</option>
-                                                }
-                                            </select>
-                                            <span asp-validation-for="UserType" class="text-danger"></span>
-                                        </div>
-                                    </div>
-
-                                    @Html.AntiForgeryToken()
-                                    <button class="btn login-btn btn-block mb-2" style="display: inline-block; margin-right: 20px; margin-left: 5px;" type="submit">Register</button>
+                        @Html.AntiForgeryToken()
+                        <button class="btn login-btn btn-block mb-2" style="display: inline-block; margin-right: 20px; margin-left: 5px;" type="submit">Register</button>
                     </form>
                 </div>
             </div>

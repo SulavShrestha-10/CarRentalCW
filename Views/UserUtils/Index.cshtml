@@ -7,7 +7,7 @@
     var userName = User.Identity.Name;
     var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
     var user = await userManager.FindByNameAsync(userName);
-                       
+    var isCustomer = await userManager.IsInRoleAsync(user, "Customer");
 }
 
 <div class="container">
@@ -17,7 +17,8 @@
                 <div class="card-header">
                     <h4>User Profile</h4>
                     <div class="d-flex my-2 justify-content-end">
-                        <a asp-action="ProfileUpdate" class="btn login-btn float-end" asp-route-id="@user.Id">Edit</a>
+                            <a asp-action="ProfileUpdate" class="btn login-btn float-end" asp-route-id="@user.Id">Edit</a>
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -34,12 +35,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext" id="inputEmail">@user.Email</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="inputUsername" class="col-sm-4 col-form-label">Username:</label>
                         <div class="col-sm-8">
                             <p class="form-control-plaintext" id="inputUsername">@user.UserName</p>
@@ -51,18 +46,36 @@
                             <p class="form-control-plaintext" id="inputPhoneNumber">@user.PhoneNumber</p>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="inputDrivingLicense" class="col-sm-4 col-form-label">Driving License:</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext" id="inputDrivingLicense">@user.DrivingLicenseURL</p>
+                    @if (isCustomer)
+                    {
+                        <div class="form-group row">
+                            <label for="inputDrivingLicense" class="col-sm-4 col-form-label">Driving License:</label>
+                            <div class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(user.DrivingLicenseURL))
+                                {
+                                    <img src="@user.DrivingLicenseURL" alt="Driving License" style="max-width: 100%;">
+                                }
+                                else
+                                {
+                                    <p class="text-danger form-control-plaintext">Please upload your driving license before trying to rent a car.</p>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputCitizenship" class="col-sm-4 col-form-label">Citizenship:</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext" id="inputCitizenship">@user.CitizenshipURL</p>
+                        <div class="form-group row">
+                            <label for="inputCitizenship" class="col-sm-4 col-form-label">Citizenship:</label>
+                            <div class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(user.CitizenshipURL))
+                                {
+                                    <img src="@user.CitizenshipURL" alt="Citizenship" style="max-width: 100%;">
+                                }
+                                else
+                                {
+                                    <p class="text-danger form-control-plaintext">Please upload your citizenship before trying to rent a car.</p>
+                                }
+                            </div>
                         </div>
-                    </div>
+
+                    }
                 </div>
             </div>
         </div>

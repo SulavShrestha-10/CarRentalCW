@@ -4,20 +4,13 @@
     ViewData["Title"] = "ProfileUpdate";
 }
 
-<h1>ProfileUpdate</h1>
+<h1>Profile Update</h1>
 
-<h4>UserProfileModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ProfileUpdate">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" type="email" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -29,18 +22,8 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DrivingLicenseURL" class="control-label"></label>
-                <input asp-for="DrivingLicenseURL" class="form-control" />
-                <span asp-validation-for="DrivingLicenseURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" type="number" class="form-control" />
+                <input asp-for="PhoneNumber" type="tel" class="form-control"/>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <br />
