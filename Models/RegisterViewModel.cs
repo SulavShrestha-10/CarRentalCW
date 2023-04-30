@@ -29,6 +29,10 @@ namespace CarRentalApp.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Phone Number")]
+        [RegularExpression(@"^\+?[0-9]{10}$", ErrorMessage = "Phone number must have exactly 10 digits.")]
+        public string PhoneNumber { get; set; }
+
         [Display(Name = "User Type")]
         public string? UserType { get; set; }
         [Display(Name = "Citizenship Image")]

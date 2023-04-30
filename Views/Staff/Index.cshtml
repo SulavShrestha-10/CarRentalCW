@@ -1,21 +1,26 @@
 ﻿@model IEnumerable<CarRentalApp.Models.Identity.AppUser>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Staff";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Staffs</h1>
-<a href="@Url.Action("Register", "Staff")">Register Staff</a>
+
 <main class="table">
     <div class="table__body">
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn login-btn" asp-action="Register" style="background-color: #00cec9; border-color: #00cec9;">Register Staff</a>
+        </div>
         <table class="table">
             <thead>
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
+                    <th>Phone Number</th>
                     <th>Roles</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,20 +29,24 @@
                     <tr>
                         <td>@user.FirstName</td>
                         <td>@user.LastName</td>
+                        <td>@user.PhoneNumber</td>
                         <td>@user.Email</td>
                         <td>
                             @{
                                 var roles = await ViewBag.UserManager.GetRolesAsync(user);
                                 foreach (var role in roles)
                                 {
-                                    <span>@role</span>
+                                    <span class="login-btn alert d-inline-block rounded-pill text-bg-primary">@role</span>
                                 }
 
                             }
                         </td>
                         <td>
-                            <a class="btn btn-primary" asp-action="Update" asp-route-id="@user.Id">
-                                Edit
+                            <a class="btn btn-info" asp-action="Update" asp-route-id="@user.Id">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a class="btn btn-danger" asp-action="ChangePassword" asp-route-id="@user.Id">
+                                <i class="fa-solid fa-lock-open"></i>
                             </a>
                         </td>
                     </tr>
