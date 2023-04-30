@@ -36,7 +36,7 @@
                                 var roles = await ViewBag.UserManager.GetRolesAsync(user);
                                 foreach (var role in roles)
                                 {
-                                    <span class="login-btn alert d-inline-block rounded-pill text-bg-primary">@role</span>
+                                    <span class="login-btn alert d-inline-block rounded-pill">@role</span>
                                 }
 
                             }
