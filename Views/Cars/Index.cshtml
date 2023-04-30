@@ -1,11 +1,23 @@
 ﻿@model IEnumerable<CarRentalApp.Models.Car>
+@using CarRentalApp.Models.Identity;
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "Car Page";
     var existingRequests = ViewBag.ExistingRequests as List<CarRentalApp.Models.RentalRequest>;
+    var userName = User.Identity.Name;
+    var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
+    var user = await userManager.FindByNameAsync(userName);
+    var hasCitizenshipAndLicense = !String.IsNullOrEmpty(user.CitizenshipURL) || !String.IsNullOrEmpty(user.DrivingLicenseURL);
 }
 
-    <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">@ViewBag.Heading</h1>
+<h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">@ViewBag.Heading</h1>
+@if (hasCitizenshipAndLicense == false && User.IsInRole("Customer"))
+{
+    <div class="alert alert-danger" role="alert">
+        You must have citizenship and a driver's license on your profile to rent a car. Please update your profile to continue.
+    </div>
+}
 @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
 {
     <div class="d-flex my-2 justify-content-end">
@@ -13,6 +25,7 @@
     </div>
 
 }
+
 <div class="row my-5 row-cols-4 g-4">
     @foreach (var car in Model)
     {
@@ -36,7 +49,7 @@
                         {
                             <p class="card-text text-danger">You have already made a rental request for this car which is pending for approval.</p>
                         }
-                        else
+                        else if (hasCitizenshipAndLicense == true)
                         {
                             // If there is no existing rental request, display the "Book Now" button
                             <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>
@@ -46,7 +59,7 @@
                     {
                         <a class="btn login-btn" asp-action="Edit" asp-route-id="@car.CarID">
                             Edit
-                        </a>                        
+                        </a>
                     }
                 </div>
             </div>

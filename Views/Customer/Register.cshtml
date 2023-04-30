@@ -64,7 +64,13 @@
                                 
                             </div>
                         </div>
-
+                        <div class="form-group text-start">
+                            <label asp-for="PhoneNumber"></label>
+                            <div class="form-outline mb-4 border shadow-2-strong" style="border-radius: 1rem;">
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
                         <div id="image-fields">
                             <div class="form-group text-start">
                                 <label asp-for="CitizenshipImage" class="control-label"></label>
