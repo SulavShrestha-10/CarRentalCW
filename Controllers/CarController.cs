@@ -100,6 +100,7 @@ namespace CarRentalApp.Controllers
                     Model = carViewModel.Model,
                     RentalRate = carViewModel.RentalRate,
                     VehicleNo = carViewModel.VehicleNo,
+                    Color = carViewModel.Color,
                     IsAvailable = true,
                     CarImageURL = uploadResult.SecureUrl?.ToString()
                 };

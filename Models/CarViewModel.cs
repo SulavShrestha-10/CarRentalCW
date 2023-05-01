@@ -7,6 +7,8 @@ public class CarViewModel
 
     [Required(ErrorMessage = "The Model field is required.")]
     public string Model { get; set; }
+    [Required(ErrorMessage = "The Color field is required.")]
+    public string Color { get; set; }
 
     [Required(ErrorMessage = "The Rental Rate field is required.")]
     [Range(0, int.MaxValue, ErrorMessage = "Please enter a value greater than or equal to 0.")]
