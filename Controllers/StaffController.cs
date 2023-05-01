@@ -78,8 +78,7 @@ namespace CarRentalApp.Controllers
                         await _userManager.AddToRoleAsync(user, UserRole.Staff);
                     }
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Staff");
                 }
 
                 foreach (var error in result.Errors)
