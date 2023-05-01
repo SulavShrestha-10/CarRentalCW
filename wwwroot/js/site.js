@@ -29,3 +29,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#staffRequestTable').DataTable();
 });
+$(document).ready(function () {
+    $('#damageTable').DataTable();
+});
