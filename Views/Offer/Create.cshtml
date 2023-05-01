@@ -11,7 +11,18 @@
     }
 </style>
 <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Create New Offer</h1>
-
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <h4>Please correct the following errors:</h4>
+        <ul class="list-unstyled">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <form asp-action="Create">

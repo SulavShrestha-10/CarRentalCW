@@ -139,11 +139,6 @@ namespace CarRentalApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return BadRequest();
-            }
-
             var staff = await _userManager.FindByIdAsync(id);
 
             if (staff == null)
