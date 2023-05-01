@@ -19,6 +19,7 @@ namespace CarRentalApp.Controllers
             _userManager = userManager;
         }
         [HttpGet]
+        [CustomAuthorize(Roles = "Customer,Admin,Staff")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -49,6 +50,7 @@ namespace CarRentalApp.Controllers
             return View(rentalHistoryList);
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Return(int id)
         {
             decimal totalCost;

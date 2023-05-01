@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
 using System.Security.Claims;
-
 namespace CarRentalApp.Controllers
 {
+
     public class CarsController : Controller
     {
         private readonly AppDbContext _context;
@@ -19,6 +19,7 @@ namespace CarRentalApp.Controllers
             _context = context;
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff,Customer")]
         // GET: Cars
         public async Task<IActionResult> Index(string view = "all")
         {
@@ -62,26 +63,8 @@ namespace CarRentalApp.Controllers
             return View(cars);
         }
 
-
-        // GET: Cars/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var car = await _context.Cars
-                .FirstOrDefaultAsync(m => m.CarID == id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            return View(car);
-        }
-
         // GET: Cars/Create
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public IActionResult Create()
         {
             return View();
@@ -89,6 +72,7 @@ namespace CarRentalApp.Controllers
 
         // POST: Cars/Create
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CarViewModel carViewModel)
         {
@@ -130,6 +114,7 @@ namespace CarRentalApp.Controllers
 
 
         // GET: Cars/Edit/5
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -147,6 +132,7 @@ namespace CarRentalApp.Controllers
 
         // POST: Cars/Edit/5
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CarID,Manufacturer,Model,Color,IsAvailable,RentalRate,VehicleNo,CarImageURL")] Car car)
         {
@@ -179,6 +165,7 @@ namespace CarRentalApp.Controllers
         }
 
         // GET: Cars/Delete/5
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -198,6 +185,7 @@ namespace CarRentalApp.Controllers
 
         // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

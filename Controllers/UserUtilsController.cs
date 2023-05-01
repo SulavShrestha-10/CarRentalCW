@@ -130,6 +130,7 @@ namespace CarRentalApp.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff,Customer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProfileUpdate(string id, UserProfileModel viewModel)
         {
@@ -156,12 +157,14 @@ namespace CarRentalApp.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
+        [CustomAuthorize(Roles = "Admin,Staff,Customer")]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff,Customer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {

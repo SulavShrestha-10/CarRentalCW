@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CarRentalApp.Controllers
 {
 
-    [Authorize(Roles = UserRole.Staff + "," + UserRole.Admin)]
+
     public class StaffController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -27,6 +27,7 @@ namespace CarRentalApp.Controllers
             _signInManager = signInManager;
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Index()
         {
             var adminAndStaff = await _userManager.GetUsersInRoleAsync(UserRole.Admin);
@@ -36,14 +37,14 @@ namespace CarRentalApp.Controllers
         }
 
 
-        [AllowAnonymous]
+        [CustomAuthorize(Roles = "Admin")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [CustomAuthorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -91,6 +92,7 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(Roles = "Admin")]
         public async Task<IActionResult> Update(string id)
         {
             var staff = await _context.Users.FindAsync(id);
@@ -112,6 +114,7 @@ namespace CarRentalApp.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(string id, UserProfileModel viewModel)
         {
@@ -137,6 +140,7 @@ namespace CarRentalApp.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
+        [CustomAuthorize(Roles = "Admin")]
         public async Task<IActionResult> ChangePassword(string id)
         {
             var staff = await _userManager.FindByIdAsync(id);
@@ -155,6 +159,7 @@ namespace CarRentalApp.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
         {
