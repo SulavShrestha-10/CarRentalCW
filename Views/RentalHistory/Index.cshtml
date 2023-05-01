@@ -5,44 +5,45 @@
 
 @model List<CarRentalApp.Models.RentalHistory>
 <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Rental Requests History</h1>
-<table id="rentalHistoryTable">
-    <thead>
-        <tr>
-            <th>Car</th>
-            @if (ViewData["UserType"].ToString() != "Customer")
-            {
-                <th>User Name</th>
-            }
-            <th>Date Rented</th>
-            <th>Days Rented</th>
-            <th>Total Cost</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var rentalHistory in Model)
-        {
+<div class="row mb-5">
+    <table id="rentalHistoryTable">
+        <thead>
             <tr>
-                <td>@rentalHistory.Car.Manufacturer @rentalHistory.Car.Model</td>
+                <th>Car</th>
                 @if (ViewData["UserType"].ToString() != "Customer")
                 {
-                    <td>@rentalHistory.User.FirstName @rentalHistory.User.LastName</td>
+                    <th>User Name</th>
                 }
-                <td>@rentalHistory.RentalDate.ToShortDateString()</td>
-                <td>
-                    @if (rentalHistory.ReturnedDate != null)
-                    {
-                        int rentalDays = (int)Math.Ceiling(((TimeSpan)(rentalHistory.ReturnedDate - rentalHistory.RentalDate)).TotalDays);
-                        rentalDays = rentalDays == 0 ? 1 : rentalDays;
-                        @rentalDays
-                    }
-                </td>
-                <td>Rs. @rentalHistory.TotalCost.ToString()</td>
-
+                <th>Date Rented</th>
+                <th>Days Rented</th>
+                <th>Total Cost</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var rentalHistory in Model)
+            {
+                <tr>
+                    <td>@rentalHistory.Car.Manufacturer @rentalHistory.Car.Model</td>
+                    @if (ViewData["UserType"].ToString() != "Customer")
+                    {
+                        <td>@rentalHistory.User.FirstName @rentalHistory.User.LastName</td>
+                    }
+                    <td>@rentalHistory.RentalDate.ToShortDateString()</td>
+                    <td>
+                        @if (rentalHistory.ReturnedDate != null)
+                        {
+                            int rentalDays = (int)Math.Ceiling(((TimeSpan)(rentalHistory.ReturnedDate - rentalHistory.RentalDate)).TotalDays);
+                            rentalDays = rentalDays == 0 ? 1 : rentalDays;
+                            @rentalDays
+                        }
+                    </td>
+                    <td>Rs. @rentalHistory.TotalCost.ToString()</td>
 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
 
