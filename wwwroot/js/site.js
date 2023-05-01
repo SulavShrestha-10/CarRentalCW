@@ -10,3 +10,22 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    $('#rentalHistoryTable').DataTable();
+});
+$(document).ready(function () {
+    $('#customerTable').DataTable();
+});
+$(document).ready(function () {
+    $('#staffTable').DataTable();
+});
+$(document).ready(function () {
+    $('#offerTable').DataTable();
+});
+$(document).ready(function () {
+    $('#cusRequestTable').DataTable();
+});
+$(document).ready(function () {
+    $('#staffRequestTable').DataTable();
+});

@@ -1,6 +1,7 @@
 ﻿using CarRentalApp.Data;
 using CarRentalApp.Models;
 using CarRentalApp.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 
 namespace CarRentalApp.Controllers
 {
+    [Authorize(Roles = "Admin, Staff")]
     public class OfferController : Controller
     {
         private readonly AppDbContext _db;

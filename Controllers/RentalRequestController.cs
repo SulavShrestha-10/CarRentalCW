@@ -154,7 +154,10 @@ namespace CarRentalApp.Controllers
             var rentalRequest = await _context.RentalRequests
                 .Include(r => r.User)
                 .Include(r => r.Car)
-                .FirstOrDefaultAsync(r => r.ReqID == id && r.Status == RentalRequestStatus.Pending);
+                .FirstOrDefaultAsync(r => r.ReqID == id &&
+                                           (r.Status == RentalRequestStatus.Pending ||
+                                            r.Status == RentalRequestStatus.Approved));
+
 
             if (rentalRequest == null)
             {
@@ -166,7 +169,7 @@ namespace CarRentalApp.Controllers
             await _context.SaveChangesAsync();
 
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
     }
 }
