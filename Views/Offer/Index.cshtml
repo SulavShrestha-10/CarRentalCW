@@ -11,10 +11,10 @@
         border-color: #0984e3;
     }
 
-    .btn-primary:hover {
-        background-color: #74b9ff;
-        border-color: #74b9ff;
-    }
+        .btn-primary:hover {
+            background-color: #74b9ff;
+            border-color: #74b9ff;
+        }
 
     .alert-danger {
         background-color: #e74c3c;
@@ -46,40 +46,37 @@
 }
 
 
-    <main class="table">     
-        <div class="table__body">
-            <div class="d-flex justify-content-end mb-3">
-                <a class="btn login-btn btn-default" asp-action="Create" style="background-color: #00cec9; border-color: #00cec9;">Make New Offer</a>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Car</th>
-                        <th>Discount Rate</th>
-                        <th>Description</th>
-                        <th>End Date</th>
-                        <th>Is Valid</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@($"{item.Car.Manufacturer} {item.Car.Model} {item.Car.Color}")</td>
-                            <td>@item.DiscountRate</td>
-                            <td>@item.OfferDescription</td>
-                            <td>@item.OfferEndDate.ToString("MM/dd/yyyy")</td>
-                            <td>@(item.IsValid == true ? "Yes" : (item.IsValid == false ? "No" : "-"))</td>
-                            <td>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OfferID">
-                                    <i class="fas fa-trash"></i>
 
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </main>
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn login-btn btn-default" asp-action="Create" style="background-color: #00cec9; border-color: #00cec9;">Make New Offer</a>
+</div>
+<table id="offerTable">
+    <thead>
+        <tr>
+            <th>Car</th>
+            <th>Discount Rate</th>
+            <th>Description</th>
+            <th>End Date</th>
+            <th>Is Valid</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@($"{item.Car.Manufacturer} {item.Car.Model} {item.Car.Color}")</td>
+                <td>@item.DiscountRate</td>
+                <td>@item.OfferDescription</td>
+                <td>@item.OfferEndDate.ToString("MM/dd/yyyy")</td>
+                <td>@(item.IsValid == true ? "Yes" : (item.IsValid == false ? "No" : "-"))</td>
+                <td>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OfferID">
+                        <i class="fas fa-trash"></i>
+
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
