@@ -139,6 +139,11 @@ namespace CarRentalApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
             var staff = await _userManager.FindByIdAsync(id);
 
             if (staff == null)
@@ -149,7 +154,7 @@ namespace CarRentalApp.Controllers
             ViewBag.LastName = staff.LastName;
             var viewModel = new ChangePasswordViewModel
             {
-                UserId = staff.Id,
+                UserId = id,
             };
 
             return View(viewModel);
@@ -162,7 +167,10 @@ namespace CarRentalApp.Controllers
             {
                 return View(viewModel);
             }
-
+            if (viewModel.UserId == null)
+            {
+                return NotFound();
+            }
             var user = await _userManager.FindByIdAsync(viewModel.UserId);
 
             if (user == null)
