@@ -98,7 +98,8 @@ namespace CarRentalApp.Controllers
                 return BadRequest();
             }
 
-            Offer offer = await _db.Offers.FindAsync(id);
+            var offer = await _db.Offers.Include(o => o.Car).FirstOrDefaultAsync(o => o.OfferID == id);
+
 
             if (offer == null)
             {
@@ -113,7 +114,7 @@ namespace CarRentalApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Offer offer = await _db.Offers.FindAsync(id);
+            var offer = await _db.Offers.Include(o => o.Car).FirstOrDefaultAsync(o => o.OfferID == id);
             _db.Offers.Remove(offer);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
