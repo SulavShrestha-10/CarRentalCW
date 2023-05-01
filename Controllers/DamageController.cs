@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalApp.Controllers
 {
+    
     public class DamageController : Controller
     {
         private readonly AppDbContext _context;
@@ -21,6 +22,8 @@ namespace CarRentalApp.Controllers
             _userManager = userManager;
             _emailSender = emailSender;
         }
+
+        [CustomAuthorize(Roles = "Admin,Customer,Staff")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -51,9 +54,7 @@ namespace CarRentalApp.Controllers
             return View(damages);
         }
 
-
-
-
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public IActionResult Create(int reqID, string userID, int carID)
         {
             var viewModel = new DamageViewModel();
@@ -64,6 +65,7 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DamageViewModel viewModel)
         {
@@ -88,6 +90,7 @@ namespace CarRentalApp.Controllers
             return View(viewModel);
         }
         [HttpGet]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Update(int id)
         {
             var damage = await _context.Damages.FindAsync(id);
@@ -108,6 +111,7 @@ namespace CarRentalApp.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int id, DamageUpdateViewModel viewModel)
         {
@@ -157,6 +161,7 @@ namespace CarRentalApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Paid(int id)
         {
             var damage = await _context.Damages.FindAsync(id);
@@ -174,6 +179,7 @@ namespace CarRentalApp.Controllers
             return RedirectToAction("Index", "Damage");
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> SendMail(int id)
         {
             var damage = await _context.Damages
@@ -189,7 +195,7 @@ namespace CarRentalApp.Controllers
 
             if (damage.PaymentDeadline > DateTime.Now)
             {
-                return RedirectToAction("Index", "Damage");
+                return RedirectToAction("Index","Damage");
             }
 
             // send email to user

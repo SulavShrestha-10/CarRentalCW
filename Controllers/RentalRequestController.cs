@@ -23,6 +23,7 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(Roles = "Customer,Admin,Staff")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -51,6 +52,7 @@ namespace CarRentalApp.Controllers
             return View(rentalRequests);
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Create(int carId)
         {
             if (ModelState.IsValid)
@@ -74,7 +76,7 @@ namespace CarRentalApp.Controllers
             return View();
         }
 
-
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Approve(int id)
         {
 
@@ -120,6 +122,7 @@ namespace CarRentalApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Reject(int id)
         {
             var rentalRequest = await _context.RentalRequests

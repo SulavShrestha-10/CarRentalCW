@@ -22,12 +22,13 @@ namespace CarRentalApp.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
         }
+        [CustomAuthorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.EmailConfirmed)
+            if (user == null)
             {
-                return RedirectToAction("ConfirmEmailReminder", "Customer");
+                return RedirectToAction("Login", "UserUtils");
             }
             var customers = _userManager.GetUsersInRoleAsync(UserRole.Customer).Result;
             return View(customers);
@@ -129,6 +130,7 @@ namespace CarRentalApp.Controllers
             await _userManager.UpdateAsync(user);
             return result.Succeeded ? RedirectToAction("Login", "UserUtils") : View("Error");
         }
+        [CustomAuthorize(Roles = "Customer")]
         public async Task<IActionResult> AddImages()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -150,6 +152,7 @@ namespace CarRentalApp.Controllers
             return View(model);
         }
         [HttpPost]
+        [CustomAuthorize(Roles = "Customer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddImages(AddImagesViewModel model)
         {

@@ -1,17 +1,17 @@
 ﻿using CarRentalApp.Data;
 using CarRentalApp.Models;
 using CarRentalApp.Models.Identity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+
 
 namespace CarRentalApp.Controllers
 {
-    [Authorize(Roles = "Admin, Staff")]
+
+    [CustomAuthorize(Roles = "Admin,Staff")]
     public class OfferController : Controller
     {
         private readonly AppDbContext _db;

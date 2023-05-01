@@ -8,17 +8,20 @@
 {
     <div class="alert alert-success">@TempData["Message"]</div>
 }
-<h1>Damage List</h1>
+<h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">Damage List</h1>
 
-<table class="table col-md-12">
+<table class="col-md-12" id="damageTable">
     <thead>
         <tr>
             <th class="col-md-1">Damage ID</th>
             <th class="col-md-4">Description</th>
             <th class="col-md-2">Car</th>
-            <th class="col-md-1">Rental Request ID</th>
+            <th class="col-md-1">Request ID</th>
             <th class="col-md-2">Status</th>
-            <th class="col-md-2">Action</th>
+            @if (ViewData["UserType"].ToString() != "Customer")
+            {
+                <th class="col-md-2">Action</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -43,22 +46,25 @@
 
                     <span class="d-inline-block alert @badgeClass">@damage.DamageStatus</span>
                 </td>
-                <td>
-                    <div class="d-block my-1">
-                    @if (damage.DamageStatus == DamageStatus.Reported)
-                    {
-                        <a asp-action="Update" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Update Payment Info</a>
-                    }
-                    @if (damage.DamageStatus == DamageStatus.PendingPayment || damage.DamageStatus == DamageStatus.Unpaid)
-                    {
-                        <a asp-action="Paid" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Mark as Paid</a>
-                    }
-                    @if (damage.DamageStatus == DamageStatus.Unpaid)
-                    {
-                        <a asp-action="SendMail" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Send Payment Reminder</a>
-                    }
-                    </div>
-                </td>
+                @if (ViewData["UserType"].ToString() != "Customer")
+                {
+                    <td>
+                        <div class="d-block my-1">
+                            @if (damage.DamageStatus == DamageStatus.Reported)
+                            {
+                                <a asp-action="Update" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Update Payment Info</a>
+                            }
+                            @if (damage.DamageStatus == DamageStatus.PendingPayment || damage.DamageStatus == DamageStatus.Unpaid)
+                            {
+                                <a asp-action="Paid" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Mark as Paid</a>
+                            }
+                            @if (damage.DamageStatus == DamageStatus.Unpaid)
+                            {
+                                <a asp-action="SendMail" asp-route-id="@damage.DamageID" class="btn btn-sm btn-primary btn-block">Send Payment Reminder</a>
+                            }
+                        </div>
+                    </td>
+                }
             </tr>
         }
     </tbody>
