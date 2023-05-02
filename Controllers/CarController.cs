@@ -82,9 +82,9 @@ namespace CarRentalApp.Controllers
             if (ModelState.IsValid)
             {
                 var account = new Account(
-            "niwahang",
-            "795422516494254",
-            "ydyImVZdZAVjunXmkcaWPiNTcKA");
+                    "niwahang",
+                    "795422516494254",
+                    "ydyImVZdZAVjunXmkcaWPiNTcKA");
                 var cloudinary = new Cloudinary(account);
 
                 var uploadResult = new ImageUploadResult();

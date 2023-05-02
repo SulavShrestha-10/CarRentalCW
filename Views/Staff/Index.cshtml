@@ -45,7 +45,10 @@
                         <a class="btn btn-info" asp-action="Update" asp-route-id="@user.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a class="btn btn-danger" asp-action="ChangePassword" asp-route-id="@user.Id">
+                        <a class="btn btn-danger" asp-controller="UserUtils" asp-action="Delete" asp-route-id="@user.Id">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                        <a class="btn btn-warning" asp-action="ChangePassword" asp-route-id="@user.Id">
                             <i class="fa-solid fa-lock-open"></i>
                         </a>
                     </td>
