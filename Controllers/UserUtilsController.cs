@@ -194,46 +194,6 @@ namespace CarRentalApp.Controllers
             return View(model);
         }
 
-        [CustomAuthorize(Roles = "Customer,Admin,Staff")]
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [CustomAuthorize(Roles = "Customer,Admin,Staff")]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
-            {
-                await _userManager.DeleteAsync(user);
-                return RedirectToAction("Index", "Staff");
-            }
-            else
-            {
-                await _userManager.DeleteAsync(user);
-                await _signInManager.SignOutAsync();
-                return RedirectToAction("Index", "Home");
-            }
-        }
 
     }
 }
