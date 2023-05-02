@@ -54,7 +54,7 @@ namespace CarRentalApp.Controllers
             return View(damages);
         }
 
-        [CustomAuthorize(Roles = "Admin,Staff")]
+        [CustomAuthorize(Roles = "Customer")]
         public IActionResult Create(int reqID, string userID, int carID)
         {
             var viewModel = new DamageViewModel();
@@ -65,7 +65,7 @@ namespace CarRentalApp.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize(Roles = "Admin,Staff")]
+        [CustomAuthorize(Roles = "Customer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DamageViewModel viewModel)
         {

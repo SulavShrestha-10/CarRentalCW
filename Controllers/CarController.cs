@@ -25,6 +25,7 @@ namespace CarRentalApp.Controllers
         {
             IQueryable<Car> query = _context.Cars.AsQueryable();
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            bool hasToPayDamageCharge = false;
             switch (view.ToLower())
             {
                 case "available":
@@ -57,8 +58,10 @@ namespace CarRentalApp.Controllers
             {
                 var rentalRequests = _context.RentalRequests.Where(r => r.UserID == userId).ToList();
                 ViewBag.ExistingRequests = rentalRequests;
+                hasToPayDamageCharge = _context.Damages.Any(d => d.UserID == userId && d.DamageStatus == DamageStatus.Unpaid);
+                ViewBag.HasToPayDamageCharge = hasToPayDamageCharge;
             }
-            var cars = await query.ToListAsync();
+            var cars = await query.Include(c => c.Damages).ToListAsync();
 
             return View(cars);
         }

@@ -9,6 +9,7 @@
     var userManager = Context.RequestServices.GetService<UserManager<AppUser>>();
     var user = await userManager.FindByNameAsync(userName);
     var hasCitizenshipAndLicense = !String.IsNullOrEmpty(user.CitizenshipURL) || !String.IsNullOrEmpty(user.DrivingLicenseURL);
+    var hasDamage = ViewBag.HasToPayDamageCharge;
 }
 
 <h1 class="my-3 text-center text-white" style="background-color: teal; padding: 1rem;">@ViewBag.Heading</h1>
@@ -24,6 +25,12 @@
         <a asp-action="Create" class="btn login-btn float-end">Add New Car</a>
     </div>
 
+}
+@if (hasDamage && User.IsInRole("Customer"))
+{
+    <div class="alert alert-danger" role="alert">
+        You have unpaid charges for damages in a previous rental request. Please settle the charges to continue renting cars.
+    </div>
 }
 
 <div class="row my-5 row-cols-4 g-4">
@@ -49,7 +56,7 @@
                         {
                             <p class="card-text text-danger">You have already made a rental request for this car which is pending for approval.</p>
                         }
-                        else if (hasCitizenshipAndLicense == true)
+                        else if (hasCitizenshipAndLicense == true && hasDamage == false)
                         {
                             // If there is no existing rental request, display the "Book Now" button
                             <a href="@Url.Action("Create", "RentalRequest", new { carId = car.CarID })" class="btn login-btn">Book Now</a>

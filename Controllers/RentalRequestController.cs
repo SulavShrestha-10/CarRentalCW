@@ -52,7 +52,7 @@ namespace CarRentalApp.Controllers
             return View(rentalRequests);
         }
 
-        [CustomAuthorize(Roles = "Admin,Staff")]
+        [CustomAuthorize(Roles = "Customer")]
         public async Task<IActionResult> Create(int carId)
         {
             if (ModelState.IsValid)
